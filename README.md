@@ -134,6 +134,26 @@ terminal is in front).
 | -5 or less | 🚫 Bad Dog |
 | -10 or less | ⛔ Doghouse |
 
+## Your animal in the status bar 🐶
+
+Want to see your pet *inside* every Claude Code session? Install the status line:
+
+```bash
+npm run install-statusline       # adds it to ~/.claude/settings.json (backs up first)
+```
+
+Your animal then walks along the bottom status bar of the terminal Claude Code,
+showing its treat count, rank, and the session's context usage — refreshed every
+second, so it actually strolls back and forth:
+
+```
+🦴 ··🐶··  +3 treats · 🐶 Good Pup · ctx 18%
+```
+
+> This is the one spot a third-party tool can paint inside a Claude Code session
+> (the terminal's status line). The mascot in the corner of the desktop/Antigravity
+> GUI is Anthropic's own UI — there's no public hook to add ours there.
+
 ## Weekly report cards
 
 ```bash

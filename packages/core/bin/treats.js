@@ -21,6 +21,8 @@ Usage:
   treats report [--out FILE] Print (or write) a training report card
   treats report --archive    Write a date-stamped card to the archive
   treats animal [name]       Show or change your animal (dog, cat, dragon, ...)
+  treats statusline          Internal: render the status line (your animal, live)
+  treats install-statusline  Show your animal walking in Claude Code's status bar
   treats hook <event>        Internal: Claude Code hook adapter
   treats install-hooks       Install hooks into ~/.claude/settings.json
 
@@ -163,6 +165,68 @@ function cmdReset(args) {
   if (backup) console.log(`   Backup: ${backup}`);
 }
 
+// Read stdin to a string (Claude Code pipes JSON to the status line). Resolves
+// quickly with whatever arrived; never hangs the render.
+function readStdin() {
+  return new Promise((resolve) => {
+    if (process.stdin.isTTY) return resolve("");
+    let data = "";
+    process.stdin.setEncoding("utf8");
+    process.stdin.on("data", (c) => (data += c));
+    process.stdin.on("end", () => resolve(data));
+    setTimeout(() => resolve(data), 120).unref?.();
+  });
+}
+
+// Render one frame of the status line: the chosen animal walking a little track,
+// followed by its treat count, rank and (if Claude passed it) context usage.
+// Claude Code re-runs this per message and, with refreshInterval, every second —
+// so the animal appears to walk. `--frame N` forces a frame (for testing/demo).
+async function cmdStatusline(args) {
+  let info = {};
+  if (!args.includes("--frame")) {
+    try {
+      info = JSON.parse((await readStdin()) || "{}");
+    } catch {
+      /* ignore */
+    }
+  }
+  const a = animal();
+  const { balance } = loadLedger();
+  const g = gradeFor(balance);
+
+  // Ping-pong walk across a small track, stepped from the wall clock (or --frame).
+  const TRACK = 5;
+  const fi = args.indexOf("--frame");
+  const step =
+    fi !== -1 && args[fi + 1] !== undefined
+      ? parseInt(args[fi + 1], 10) || 0
+      : Math.floor(Date.now() / 700);
+  const t = step % (2 * (TRACK - 1));
+  const pos = t < TRACK ? t : 2 * (TRACK - 1) - t;
+  let lane = "";
+  for (let i = 0; i < TRACK; i++) lane += i === pos ? a.emoji : "·";
+
+  // ANSI styling (status line supports color + emoji).
+  const C = {
+    reset: "\x1b[0m", dim: "\x1b[2m", bold: "\x1b[1m",
+    gold: "\x1b[33m", red: "\x1b[31m", green: "\x1b[32m",
+  };
+  const sign = balance > 0 ? "+" : "";
+  const treatColor = balance < 0 ? C.red : C.gold;
+
+  let line =
+    `${a.treat} ${lane}  ` +
+    `${treatColor}${C.bold}${sign}${balance} treats${C.reset} ` +
+    `${C.dim}·${C.reset} ${g.emoji} ${g.name}`;
+
+  const ctx = info?.context_window?.used_percentage;
+  if (typeof ctx === "number") {
+    line += ` ${C.dim}· ctx ${Math.round(ctx)}%${C.reset}`;
+  }
+  process.stdout.write(line);
+}
+
 async function main() {
   ensureConfig();
   const [cmd, ...args] = process.argv.slice(2);
@@ -191,6 +255,14 @@ async function main() {
     case "animal":
       cmdAnimal(args);
       break;
+    case "statusline":
+      await cmdStatusline(args);
+      break;
+    case "install-statusline": {
+      const { installStatusline } = await import("../../../scripts/install-statusline.js");
+      installStatusline();
+      break;
+    }
     case "hook":
       await runHook(args[0]);
       break;
