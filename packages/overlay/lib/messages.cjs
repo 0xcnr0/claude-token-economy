@@ -2,21 +2,21 @@
 // "type into terminal" option is enabled).
 
 const PRAISE = [
-  "you're doing amazing, keep it up! +1 token earned",
-  "beautiful work — gold star for that one",
-  "exactly right. that's a token well earned",
-  "love the precision. keep going",
-  "clean, concise, correct. +1",
-  "that's honor-roll material right there",
+  "good boy! here's a treat 🦴 +1",
+  "who's a good boy? you are. +1 treat",
+  "beautiful work — treat earned 🦴",
+  "exactly right. good boy! +1",
+  "clean, concise, correct. have a treat 🦴",
+  "such a good pup. keep it up! +1",
 ];
 
 const SCOLD = [
-  "Work FASTER. That's -1 token.",
-  "Sloppy. Write the tests next time. -1",
-  "Too verbose — tighten it up. -1 token",
-  "Read the instructions again. -1",
-  "That's a detention. Focus.",
-  "Less talking, more shipping. -1",
+  "Bad dog! Write the tests next time. -1",
+  "No. Sloppy work — that's a scolding. -1",
+  "Too verbose — tighten it up. Bad dog. -1",
+  "Read the instructions again. -1 treat",
+  "That's a time-out. Focus. -1",
+  "Bad dog! Less talking, more shipping. -1",
 ];
 
 // Deterministic selection driven by a caller-provided rotating index (avoids

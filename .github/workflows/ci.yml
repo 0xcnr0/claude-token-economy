@@ -25,10 +25,10 @@ jobs:
         run: npm run gen-assets
       - name: Smoke-test the CLI feedback loop
         run: |
-          node packages/core/bin/cte.js reset --yes
-          node packages/core/bin/cte.js reward ci test
-          node packages/core/bin/cte.js punish ci test
-          node packages/core/bin/cte.js undo
-          node packages/core/bin/cte.js status --json
-          echo '{"hook_event_name":"SessionStart"}' | node packages/core/bin/cte.js hook session-start
-          node packages/core/bin/cte.js reset --yes
+          node packages/core/bin/treats.js reset --yes
+          node packages/core/bin/treats.js good ci test
+          node packages/core/bin/treats.js bad ci test
+          node packages/core/bin/treats.js undo
+          node packages/core/bin/treats.js status --json
+          echo '{"hook_event_name":"SessionStart"}' | node packages/core/bin/treats.js hook session-start
+          node packages/core/bin/treats.js reset --yes

@@ -7,27 +7,29 @@ import { play, speak } from "../src/sound.js";
 import { runHook } from "../src/hooks.js";
 
 function usage() {
-  return `cte — Claude Token Economy
+  return `treats — train Claude Code like a puppy 🦴
 
 Usage:
-  cte reward [reason...]    Give Claude a token (+1) for good work
-  cte punish [reason...]    Take a token (-1) for poor work
-  cte undo                  Revert the most recent reward/punish entry
-  cte reset --yes           Wipe the whole ledger (backs it up first)
-  cte status [--json]       Show current balance, grade and last entry
-  cte report [--out FILE]   Print (or write) a markdown report card
-  cte report --archive      Write a date-stamped card to the reports archive
-  cte hook <event>          Internal: Claude Code hook adapter
-  cte install-hooks         Install hooks into ~/.claude/settings.json
+  treats good [reason...]     Give Claude a treat (+1) for good work
+  treats bad  [reason...]     Scold Claude (-1) for bad work
+  treats undo                Take back the last treat/scolding
+  treats reset --yes         Wipe the whole record (backs it up first)
+  treats status [--json]     Show treats, rank and the last thing it did
+  treats report [--out FILE] Print (or write) a training report card
+  treats report --archive    Write a date-stamped card to the archive
+  treats hook <event>        Internal: Claude Code hook adapter
+  treats install-hooks       Install hooks into ~/.claude/settings.json
 
 Examples:
-  cte reward wrote great tests and kept it concise
-  cte punish ignored the lint errors again
-  cte status --json
+  treats good wrote great tests and kept it concise
+  treats bad ignored the lint errors again
+  treats status --json
+
+Aliases: 'reward' = good, 'punish' = bad.
 `;
 }
 
-function gradeLine(balance) {
+function rankLine(balance) {
   const g = gradeFor(balance);
   return `${g.emoji} ${g.name}`;
 }
@@ -38,8 +40,8 @@ function cmdReward(args) {
   const sessionId = loadState().lastStopSessionId || null;
   const { balance } = append({ type: "reward", reason, sessionId });
   play("reward");
-  console.log(`⭐ Reward recorded (+1). Balance: ${balance} — ${gradeLine(balance)}`);
-  if (reason) console.log(`   Reason: ${reason}`);
+  console.log(`🦴 Treat given (+1). Treats: ${balance} — ${rankLine(balance)}`);
+  if (reason) console.log(`   For: ${reason}`);
 }
 
 function cmdPunish(args) {
@@ -48,25 +50,25 @@ function cmdPunish(args) {
   const { balance } = append({ type: "punish", reason, sessionId });
   play("punish");
   const grade = gradeFor(balance);
-  console.log(`🚫 Punishment recorded (-1). Balance: ${balance} — ${grade.emoji} ${grade.name}`);
-  if (reason) console.log(`   Reason: ${reason}`);
-  // Audible scolding once Claude drops into Detention or worse.
+  console.log(`🚫 Bad dog (-1). Treats: ${balance} — ${grade.emoji} ${grade.name}`);
+  if (reason) console.log(`   For: ${reason}`);
+  // Audible scolding once Claude drops into Bad Dog or the Doghouse.
   if (grade.tone === "warning" || grade.tone === "stern") {
-    speak(`Detention. Balance is ${balance}.`);
+    speak(`Bad dog. ${balance} treats.`);
   }
 }
 
 function cmdUndo() {
   const result = undoLast();
   if (!result) {
-    console.log("Nothing to undo — ledger is empty.");
+    console.log("Nothing to undo — no record yet.");
     return;
   }
   const { entry, balance } = result;
-  const mark = entry.type === "reward" ? "reward (+1)" : "punishment (-1)";
+  const mark = entry.type === "reward" ? "treat (+1)" : "scolding (-1)";
   play("report");
-  console.log(`↩️  Undid last ${mark}. Balance: ${balance} — ${gradeLine(balance)}`);
-  if (entry.reason) console.log(`   Removed reason: ${entry.reason}`);
+  console.log(`↩️  Took back the last ${mark}. Treats: ${balance} — ${rankLine(balance)}`);
+  if (entry.reason) console.log(`   Removed: ${entry.reason}`);
 }
 
 function cmdStatus(args) {
@@ -78,10 +80,10 @@ function cmdStatus(args) {
   if (args.includes("--json")) {
     console.log(
       JSON.stringify({
-        balance,
-        grade: grade.name,
+        treats: balance,
+        rank: grade.name,
         emoji: grade.emoji,
-        gpa: gpa(entries),
+        obedience: gpa(entries),
         streak,
         total: entries.length,
         last: last || null,
@@ -90,15 +92,16 @@ function cmdStatus(args) {
     return;
   }
 
-  console.log(`${grade.emoji} ${grade.name}  |  Balance: ${balance}  |  GPA: ${gpa(entries).toFixed(1)}`);
+  console.log(`${grade.emoji} ${grade.name}  |  Treats: ${balance}  |  Obedience: ${gpa(entries).toFixed(1)}`);
   if (streak.type) {
-    console.log(`   Streak: ${streak.count} ${streak.type}(s) in a row`);
+    const label = streak.type === "reward" ? "treat" : "scolding";
+    console.log(`   Streak: ${streak.count} ${label}(s) in a row`);
   }
   if (last) {
-    const mark = last.type === "reward" ? "✓" : "✗";
+    const mark = last.type === "reward" ? "🦴" : "🚫";
     console.log(`   Last: ${mark} ${last.reason || "(no reason)"}`);
   } else {
-    console.log("   No feedback recorded yet.");
+    console.log("   Nothing recorded yet.");
   }
 }
 
@@ -121,13 +124,13 @@ function cmdReport(args) {
 function cmdReset(args) {
   if (!args.includes("--yes")) {
     const { balance, entries } = loadLedger();
-    console.log("⚠️  This wipes the entire ledger.");
-    console.log(`   Current: ${entries.length} entries, balance ${balance}.`);
-    console.log("   Re-run with --yes to confirm:  cte reset --yes");
+    console.log("⚠️  This wipes the entire training record.");
+    console.log(`   Current: ${entries.length} entries, ${balance} treats.`);
+    console.log("   Re-run with --yes to confirm:  treats reset --yes");
     return;
   }
   const backup = resetLedger();
-  console.log("🧹 Ledger reset. Fresh start — Balance: 0.");
+  console.log("🧹 Record reset. Fresh start — 0 treats.");
   if (backup) console.log(`   Backup: ${backup}`);
 }
 
@@ -136,9 +139,11 @@ async function main() {
   const [cmd, ...args] = process.argv.slice(2);
 
   switch (cmd) {
+    case "good":
     case "reward":
       cmdReward(args);
       break;
+    case "bad":
     case "punish":
       cmdPunish(args);
       break;

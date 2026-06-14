@@ -17,7 +17,7 @@ project and contributions are very welcome.
 | Path | What |
 |---|---|
 | `packages/core/src/ledger.js` | atomic ledger read/append (foundation) |
-| `packages/core/bin/cte.js` | CLI router |
+| `packages/core/bin/treats.js` | CLI router |
 | `packages/core/src/hooks.js` + `context.js` | hook adapters + context injection |
 | `packages/overlay/main.js` | Electron tray + click-through overlay |
 | `scripts/` | asset generators, hook/schedule installers, demo |
@@ -27,7 +27,7 @@ project and contributions are very welcome.
 ```bash
 npm install
 npm run gen-assets          # synthesize sounds + tray icons
-node packages/core/bin/cte.js install-hooks
+node packages/core/bin/treats.js install-hooks
 npm run demo                # end-to-end walkthrough of the feedback loop
 npm run overlay             # launch the Electron overlay
 ```
@@ -42,4 +42,4 @@ npm run overlay             # launch the Electron overlay
 ## Reporting bugs / ideas
 
 Use the issue templates. For bugs, include your macOS version, Node version, and
-the output of `cte status --json`.
+the output of `treats status --json`.

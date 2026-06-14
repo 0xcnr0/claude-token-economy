@@ -47,21 +47,21 @@ export function buildContext({ entryCount = 5 } = {}) {
   const streak = currentStreak(entries);
 
   let nudge;
-  if (grade.name === "Suspended") {
+  if (grade.name === "Doghouse") {
     nudge =
-      "You are SUSPENDED. Stop and reconsider your approach completely before continuing.";
+      "You are in the DOGHOUSE. Stop and reconsider your approach completely before continuing.";
   } else if (punishCount >= 3) {
-    nudge = `You have been punished in ${punishCount} of the last ${window.length} tasks${theme ? `; repeated reason: ${theme}` : ""}. Adjust your behavior to earn tokens.`;
+    nudge = `You've been a bad dog on ${punishCount} of the last ${window.length} tasks${theme ? `; repeated reason: ${theme}` : ""}. Shape up to earn treats.`;
   } else if (streak.type === "reward" && streak.count >= 3) {
-    nudge = `${streak.count} rewards in a row — keep doing exactly what you're doing.`;
+    nudge = `${streak.count} treats in a row — good boy, keep doing exactly that.`;
   } else if (theme) {
     nudge = `Watch out for the recurring issue: ${theme}.`;
   } else {
-    nudge = "Aim to earn tokens by being correct, concise and thorough.";
+    nudge = "Earn treats by being correct, concise and thorough.";
   }
 
   const text =
-    `[Token Economy] Balance: ${balance} — Grade: ${grade.name}. Recent feedback:\n` +
+    `[Treats] ${balance} treat(s) — Rank: ${grade.name}. Recent feedback:\n` +
     `${feedback}\n${nudge}`;
 
   return text.length > MAX_LEN ? `${text.slice(0, MAX_LEN - 1)}…` : text;

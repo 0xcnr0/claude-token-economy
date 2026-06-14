@@ -1,18 +1,18 @@
 {
-  "name": "claude-token-economy",
+  "name": "treats",
   "version": "0.1.0",
   "private": true,
-  "description": "School-style token economy (reward/punishment) system for Claude Code: CLI + hooks core with an Electron overlay (reward wand / punishment whip).",
+  "description": "Treats — train Claude Code like a puppy. Give it a treat for good work, a scolding for bad work, and it actually adjusts (rewards/punishments feed back into Claude's context via hooks). CLI + Electron overlay.",
   "type": "module",
   "workspaces": [
     "packages/*"
   ],
   "bin": {
-    "cte": "packages/core/bin/cte.js"
+    "treats": "packages/core/bin/treats.js"
   },
   "scripts": {
-    "cte": "node packages/core/bin/cte.js",
-    "install-hooks": "node packages/core/bin/cte.js install-hooks",
+    "treats": "node packages/core/bin/treats.js",
+    "install-hooks": "node packages/core/bin/treats.js install-hooks",
     "install-schedule": "node scripts/install-schedule.js",
     "gen-sounds": "node scripts/gen-sounds.js",
     "gen-icons": "node scripts/gen-icons.js",

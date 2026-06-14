@@ -9,10 +9,10 @@ import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const CTE_BIN = path.resolve(__dirname, "../packages/core/bin/cte.js");
+const CTE_BIN = path.resolve(__dirname, "../packages/core/bin/treats.js");
 const NODE = process.execPath;
 
-const LABEL = "com.claude-token-economy.weekly-report";
+const LABEL = "com.treats.weekly-report";
 const PLIST_PATH = path.join(
   os.homedir(),
   "Library",
@@ -44,7 +44,7 @@ function plistContents() {
         <integer>0</integer>
     </dict>
     <key>StandardErrorPath</key>
-    <string>${path.join(os.homedir(), ".claude-token-economy", "schedule.log")}</string>
+    <string>${path.join(os.homedir(), ".treats", "schedule.log")}</string>
     <key>RunAtLoad</key>
     <false/>
 </dict>
@@ -70,7 +70,7 @@ const res = spawnSync("launchctl", ["load", PLIST_PATH], { encoding: "utf8" });
 
 console.log("📅 Weekly report card scheduled (Mondays 09:00).");
 console.log(`   Plist:   ${PLIST_PATH}`);
-console.log(`   Output:  ~/.claude-token-economy/reports/report-YYYY-MM-DD.md`);
+console.log(`   Output:  ~/.treats/reports/report-YYYY-MM-DD.md`);
 if (res.status !== 0 && res.stderr) {
   console.log(`   launchctl: ${res.stderr.trim()}`);
 }

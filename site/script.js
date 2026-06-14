@@ -7,13 +7,13 @@ const THRESHOLDS = {
 };
 
 function gradeFor(b) {
-  if (b >= THRESHOLDS.valedictorian) return { name: "Valedictorian", emoji: "🎓" };
-  if (b >= THRESHOLDS.honorRoll) return { name: "Honor Roll", emoji: "🌟" };
-  if (b >= THRESHOLDS.goldStar) return { name: "Gold Star Student", emoji: "⭐" };
-  if (b >= THRESHOLDS.goodStanding) return { name: "Good Standing", emoji: "✅" };
-  if (b <= THRESHOLDS.suspended) return { name: "Suspended", emoji: "⛔" };
-  if (b <= THRESHOLDS.detention) return { name: "Detention", emoji: "🚫" };
-  return { name: "Needs Improvement", emoji: "⚠️" };
+  if (b >= THRESHOLDS.valedictorian) return { name: "Best Boy", emoji: "🏆" };
+  if (b >= THRESHOLDS.honorRoll) return { name: "Very Good Boy", emoji: "🌟" };
+  if (b >= THRESHOLDS.goldStar) return { name: "Good Boy", emoji: "⭐" };
+  if (b >= THRESHOLDS.goodStanding) return { name: "Good Pup", emoji: "🐶" };
+  if (b <= THRESHOLDS.suspended) return { name: "Doghouse", emoji: "⛔" };
+  if (b <= THRESHOLDS.detention) return { name: "Bad Dog", emoji: "🚫" };
+  return { name: "Needs Training", emoji: "⚠️" };
 }
 
 const STOP = new Set(["the","a","an","to","of","for","and","or","in","on","at","is","was","were","be","no","not","didnt","did","you","your","it","with","too","so","but","this","that","had","has","have","i"]);
@@ -58,7 +58,7 @@ function reset() { entries = []; render("reset"); }
 function buildContext() {
   const b = balance();
   if (!entries.length) {
-    return `<span class="k">[Token Economy]</span> No feedback yet. Earn tokens by being correct, concise and thorough.`;
+    return `<span class="k">[Treats]</span> No feedback yet. Earn treats by being correct, concise and thorough.`;
   }
   const g = gradeFor(b);
   const recent = entries.slice(-5).reverse();
@@ -72,12 +72,12 @@ function buildContext() {
   const theme = dominantTheme(entries.filter((e) => e.type === "punish").slice(-10).map((e) => e.reason));
 
   let nudge;
-  if (g.name === "Suspended") nudge = "You are SUSPENDED. Stop and reconsider your approach completely.";
-  else if (punish >= 3) nudge = `You have been punished in ${punish} of the last ${window.length} tasks${theme ? `; repeated reason: ${theme}` : ""}. Adjust your behavior to earn tokens.`;
+  if (g.name === "Doghouse") nudge = "You are in the DOGHOUSE. Stop and reconsider your approach completely.";
+  else if (punish >= 3) nudge = `You've been a bad dog on ${punish} of the last ${window.length} tasks${theme ? `; repeated reason: ${theme}` : ""}. Shape up to earn treats.`;
   else if (theme) nudge = `Watch out for the recurring issue: ${theme}.`;
-  else nudge = "Aim to earn tokens by being correct, concise and thorough.";
+  else nudge = "Earn treats by being correct, concise and thorough.";
 
-  return `<span class="k">[Token Economy]</span> Balance: ${b} — Grade: ${g.name}. Recent feedback:\n${fb}\n<span class="nudge">${nudge}</span>`;
+  return `<span class="k">[Treats]</span> ${b} treat(s) — Rank: ${g.name}. Recent feedback:\n${fb}\n<span class="nudge">${nudge}</span>`;
 }
 
 // ---- render ----
@@ -87,7 +87,7 @@ function render(action) {
   const b = balance();
   const g = gradeFor(b);
 
-  $("mbIcon").textContent = action === "punish" ? "🚫" : "⭐";
+  $("mbIcon").textContent = action === "punish" ? "🚫" : "🦴";
   $("mbBalance").textContent = (b > 0 ? "+" : "") + b;
   $("mbBalance").style.color = b < 0 ? "var(--red)" : "var(--gold)";
   $("mbGrade").textContent = g.name;

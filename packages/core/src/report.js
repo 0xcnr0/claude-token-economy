@@ -71,20 +71,20 @@ export function buildReport() {
   const runningSeries = entries.map((e) => (running += e.delta || 0));
 
   const lines = [];
-  lines.push("# 📋 Claude Token Economy — Report Card");
+  lines.push("# 🦴 Treats — Training Report Card");
   lines.push("");
-  lines.push(`**Grade:** ${grade.emoji} ${grade.name}`);
-  lines.push(`**Balance:** ${balance} token(s)`);
-  lines.push(`**GPA:** ${score.toFixed(1)} / 4.0`);
+  lines.push(`**Rank:** ${grade.emoji} ${grade.name}`);
+  lines.push(`**Treats:** ${balance} 🦴`);
+  lines.push(`**Obedience:** ${score.toFixed(1)} / 4.0`);
   lines.push(
-    `**Rewards:** ${rewards}  •  **Punishments:** ${punishments}  •  **Total feedback:** ${entries.length}`,
+    `**Treats given:** ${rewards}  •  **Scoldings:** ${punishments}  •  **Total feedback:** ${entries.length}`,
   );
   if (streak.type) {
-    const label = streak.type === "reward" ? "rewards" : "punishments";
+    const label = streak.type === "reward" ? "treats" : "scoldings";
     lines.push(`**Current streak:** ${streak.count} ${label} in a row`);
     if (streak.type === "reward" && streak.count >= 5) {
       lines.push("");
-      lines.push("> 🏅 **Perfect attendance bonus** — five clean tasks running!");
+      lines.push("> 🏅 **Good boy bonus** — five clean tasks running!");
     }
   }
   if (runningSeries.length) {
@@ -93,7 +93,7 @@ export function buildReport() {
   }
 
   lines.push("");
-  lines.push("## Teacher's Comments");
+  lines.push("## Trainer's Notes");
   for (const c of teacherComments(entries)) lines.push(`- ${c}`);
 
   lines.push("");
@@ -104,7 +104,7 @@ export function buildReport() {
     lines.push("| When | Type | Δ | Reason | Source |");
     lines.push("|---|---|---|---|---|");
     for (const e of entries.slice(-15).reverse()) {
-      const icon = e.type === "reward" ? "✓ reward" : "✗ punish";
+      const icon = e.type === "reward" ? "🦴 treat" : "🚫 scold";
       const reason = (e.reason || "—").replace(/\|/g, "\\|");
       lines.push(
         `| ${relTime(e.ts)} | ${icon} | ${e.delta > 0 ? "+" : ""}${e.delta} | ${reason} | ${e.source} |`,

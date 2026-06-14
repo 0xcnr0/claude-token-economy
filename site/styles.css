@@ -203,3 +203,32 @@ footer .fine { font-size: 0.8rem; opacity: 0.7; margin-top: 6px; }
   .controls { grid-row: auto; }
   .nav nav a:not(.gh) { display: none; }
 }
+
+/* ── rebrand additions ─────────────────────────────── */
+
+/* what is it */
+.what .lead { font-size: 1.15rem; color: var(--ink); max-width: 720px; margin: 0 0 26px; }
+.qa { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.qa-item { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 22px; }
+.qa-item b { display: block; margin-bottom: 6px; color: var(--gold); font-size: 1rem; }
+.qa-item span { color: var(--mut); font-size: 0.95rem; }
+.qa-item em { color: var(--ink); font-style: normal; }
+
+.how-note, .install-intro { color: var(--mut); margin-top: 22px; }
+.install-intro { margin-top: 0; }
+
+/* demo controls (stacked, full width) */
+.controls .ctrl-label { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--mut); margin: 14px 0 8px; }
+.controls .ctrl-label:first-of-type { margin-top: 4px; }
+.controls > .btn { display: block; width: 100%; text-align: left; font-size: 0.9rem; padding: 11px 16px; margin-bottom: 8px; }
+.ctrl-foot { display: flex; gap: 10px; margin-top: 14px; }
+.ctrl-foot .btn { flex: 1; text-align: center; }
+
+.term-cap { color: var(--mut); font-size: 0.78rem; margin: 12px 0 0; line-height: 1.5; }
+
+/* diff section reuses .diff; just ensure spacing */
+.diffsec .diff { margin-top: 24px; }
+
+@media (max-width: 820px) {
+  .qa { grid-template-columns: 1fr; }
+}

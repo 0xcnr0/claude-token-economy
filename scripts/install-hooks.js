@@ -4,9 +4,9 @@ import { fileURLToPath } from "node:url";
 import { CLAUDE_SETTINGS_PATH } from "../packages/core/src/paths.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const CTE_BIN = path.resolve(__dirname, "../packages/core/bin/cte.js");
+const CTE_BIN = path.resolve(__dirname, "../packages/core/bin/treats.js");
 
-// Hook events this system installs, mapped to the `cte hook <event>` adapter.
+// Hook events this system installs, mapped to the `treats hook <event>` adapter.
 const EVENTS = {
   SessionStart: "session-start",
   UserPromptSubmit: "user-prompt-submit",
@@ -31,13 +31,13 @@ function backup() {
   return dest;
 }
 
-// True if some hook entry in `arr` already runs our cte adapter for `event`.
+// True if some hook entry in `arr` already runs our treats adapter for `event`.
 function alreadyInstalled(arr, event) {
   return arr.some((group) =>
     (group.hooks || []).some(
       (h) =>
         typeof h.command === "string" &&
-        h.command.includes("cte.js") &&
+        h.command.includes("treats.js") &&
         h.command.includes(`hook ${event}`),
     ),
   );

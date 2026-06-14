@@ -18,7 +18,7 @@ What you expected instead.
 **Environment**
 - macOS version:
 - Node version (`node -v`):
-- `cte status --json` output:
+- `treats status --json` output:
 - Which layer: CLI / hooks / Electron overlay
 
 **Logs**

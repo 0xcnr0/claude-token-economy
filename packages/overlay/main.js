@@ -12,14 +12,14 @@ const path = require("node:path");
 const { typeIntoFocusedApp } = require("./lib/automation.cjs");
 const { PRAISE, SCOLD, pick } = require("./lib/messages.cjs");
 
-// @cte/core is ESM; load it via dynamic import() from this CommonJS main
+// @treats/core is ESM; load it via dynamic import() from this CommonJS main
 // process and cache the bindings we need.
 let core = null;
 async function loadCore() {
   const [ledger, grades, sound] = await Promise.all([
-    import("@cte/core/ledger"),
-    import("@cte/core/grades"),
-    import("@cte/core/sound"),
+    import("@treats/core/ledger"),
+    import("@treats/core/grades"),
+    import("@treats/core/sound"),
   ]);
   core = {
     append: ledger.append,
@@ -76,7 +76,7 @@ function statusSummary() {
   if (!core) return "Loading…";
   const { balance } = core.loadLedger();
   const g = core.gradeFor(balance);
-  return `${g.emoji} ${g.name} — Balance: ${balance}`;
+  return `${g.emoji} ${g.name} — ${balance} treats`;
 }
 
 // Star template icon (black + alpha; macOS recolors for light/dark menu bars).
@@ -107,13 +107,13 @@ function buildMenu() {
     { label: statusSummary(), enabled: false },
     { type: "separator" },
     {
-      label: "Mode: Reward Wand ⭐",
+      label: "Mode: Toss a Treat 🦴",
       type: "radio",
       checked: mode === "wand",
       click: () => setMode("wand"),
     },
     {
-      label: "Mode: Punishment Whip 🚫",
+      label: "Mode: Bad Dog 🚫",
       type: "radio",
       checked: mode === "whip",
       click: () => setMode("whip"),
@@ -132,8 +132,8 @@ function buildMenu() {
       click: (item) => (typeIntoTerminal = item.checked),
     },
     { type: "separator" },
-    { label: "Reward now  (⌘⇧G)", click: () => trigger("reward") },
-    { label: "Punish now  (⌘⇧B)", click: () => trigger("punish") },
+    { label: "Give a treat  (⌘⇧G)", click: () => trigger("reward") },
+    { label: "Bad dog  (⌘⇧B)", click: () => trigger("punish") },
     { type: "separator" },
     { label: "Quit", role: "quit" },
   ]);
@@ -191,8 +191,8 @@ app.whenReady().then(async () => {
   createWindow();
 
   tray = new Tray(trayIcon());
-  tray.setTitle(trayTitle()); // signed balance beside the star icon
-  tray.setToolTip("Claude Token Economy");
+  tray.setTitle(trayTitle()); // signed treat count beside the icon
+  tray.setToolTip("Treats — train Claude Code");
   refreshTray();
 
   globalShortcut.register("CommandOrControl+Shift+G", () => {

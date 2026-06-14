@@ -1,11 +1,11 @@
 {
-  "name": "@cte/core",
+  "name": "@treats/core",
   "version": "0.1.0",
-  "description": "Token economy ledger, CLI and Claude Code hooks core.",
+  "description": "Treats ledger, CLI and Claude Code hooks core.",
   "type": "module",
   "main": "src/ledger.js",
   "bin": {
-    "cte": "bin/cte.js"
+    "treats": "bin/treats.js"
   },
   "exports": {
     "./ledger": "./src/ledger.js",

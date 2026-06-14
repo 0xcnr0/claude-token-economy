@@ -1,142 +1,163 @@
-# claude-token-economy
+# 🦴 Treats
 
-[![Website](https://img.shields.io/badge/website-claude--token--economy.vercel.app-ffcf4d)](https://claude-token-economy.vercel.app)
+[![Website](https://img.shields.io/badge/website-treats-ffcf4d)](https://claude-token-economy.vercel.app)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![Platform: macOS](https://img.shields.io/badge/platform-macOS-black)
 
-> **Live demo & landing page → [claude-token-economy.vercel.app](https://claude-token-economy.vercel.app)**
+> **Train Claude Code like a puppy.** Give it a treat 🦴 for good work, a "bad dog" 🚫
+> when it slips — and it actually behaves better next time.
+>
+> **Live demo → [the website](https://claude-token-economy.vercel.app)**
 
-A school-style **token economy** (reward / punishment) system for Claude Code.
-Reward Claude for good work (+1 token, ⭐ wand + chime) and punish it for sloppy
-work (-1 token, 🚫 whip + crack). The current balance and recent feedback are
-**injected back into Claude's context via hooks**, so rewards and punishments
-actually change how Claude behaves.
+## What is this?
 
-Inspired by the viral **BadClaude / OpenWhip** (a digital whip that yells "Work
-FASTER") and its wholesome fork **GoodClaude** (a magic wand of encouragement) —
-combined here into one system, framed as the classroom behavior-management
-technique it's named after.
+[Claude Code](https://www.npmjs.com/package/@anthropic-ai/claude-code) is an AI
+assistant that writes code for you in the terminal. Sometimes it's brilliant;
+sometimes it gets lazy (skips tests, rambles, ignores errors).
 
-## Architecture
+**Treats** is a tiny tool that sits on top of it. You reward good work and scold
+bad work — and the magic part: **your feedback is fed back into Claude's
+context**, so it remembers and adjusts.
 
-Two layers, one shared ledger:
+- Give a treat → Claude's score goes up.
+- Bad dog → score goes down (low enough and it's in the "doghouse").
+- Every time you talk to Claude, it quietly sees its score and what you scolded
+  it for. Scold it for "no tests" → its next reply knows `repeated reason: tests`
+  → it writes the tests.
 
-1. **Core (`packages/core`)** — a CLI (`cte`) and the Claude Code hook adapters.
-   Zero runtime dependencies. This layer does the real work.
-2. **Overlay (`packages/overlay`)** — an Electron menu-bar app with a
-   cursor-following wand / whip, sounds, and optional keystroke automation.
-   Purely cosmetic + convenience; it writes through the same core ledger.
+A "treat" isn't money or crypto — it's just a **point**, like a gold star in a
+notebook. You're the trainer; Claude is the puppy.
 
-Runtime data lives in `~/.claude-token-economy/`:
-- `ledger.json` — balance + full feedback history (atomic writes, self-healing)
-- `state.json` — injection bookkeeping + last finished session
-- `config.json` — sounds, injection cadence, thresholds, terminal-typing toggle
+Inspired by the viral whip/wand overlays (**BadClaude / OpenWhip** and
+**GoodClaude**) — but those were pure theater; Claude never knew it got smacked.
+Treats closes the loop: the feedback actually reaches Claude.
 
-## CLI
+## Quick start
 
-```bash
-cte reward wrote great tests and stayed concise
-cte punish ignored the lint errors again
-cte undo                       # revert the last reward/punish (misclick)
-cte reset --yes                # wipe the ledger (backs it up first)
-cte status                     # balance, grade, GPA, streak
-cte status --json
-cte report                     # markdown report card
-cte report --out card.md
-cte report --archive           # date-stamped card into the reports archive
-```
-
-### Weekly report cards
-
-Schedule an auto-generated report card every Monday at 09:00 (macOS launchd):
+You need Claude Code + Node.js on a Mac.
 
 ```bash
-npm run install-schedule                       # install + load the job
-node scripts/install-schedule.js --uninstall   # remove it
-```
+git clone https://github.com/0xcnr0/treats
+cd treats
+npm install
 
-Cards land in `~/.claude-token-economy/reports/report-YYYY-MM-DD.md`.
+# teach Claude Code to listen (backs up your settings first)
+node packages/core/bin/treats.js install-hooks
 
-`cte` is installed globally via a symlink in `/opt/homebrew/bin`. To re-create it
-elsewhere, point a symlink (in any directory on your `PATH`) at the CLI entry:
+# train your puppy 🦴
+treats good "wrote thorough tests"
+treats bad  "skipped the edge cases"
 
-```bash
-ln -s "$PWD/packages/core/bin/cte.js" /opt/homebrew/bin/cte
-```
-
-### Sounds
-
-Custom effects are synthesized (no dependencies) into `packages/core/assets/`:
-a bright chime for rewards and a whip-crack-plus-thud for punishments. Regenerate
-them anytime with `node scripts/gen-sounds.js`. If the assets are missing, the
-CLI/overlay fall back to macOS system sounds (Glass / Basso).
-
-## Hooks (the part that changes Claude's behavior)
-
-```bash
-node packages/core/bin/cte.js install-hooks
-```
-
-This **deep-merges** three hooks into `~/.claude/settings.json` (backing it up
-first and preserving any existing hooks):
-
-- **SessionStart** — injects the full standing (balance, grade, last 5 entries,
-  a behavioral nudge) at the start of every session.
-- **UserPromptSubmit** — re-injects *only when the ledger changed* since the
-  last injection, so a mid-session whip-crack reaches Claude on the next prompt
-  without spamming the context every turn.
-- **Stop** — records which session just finished, so the next `reward`/`punish`
-  is attributed to that task.
-
-Restart any running `claude` session afterward. Injected context is capped at
-~450 characters and looks like:
-
-```
-[Token Economy] Balance: -2 — Grade: Needs Improvement. Recent feedback:
-✗ "didnt write tests" (2h) | ✗ "too verbose" (1d) | ✓ "great refactor" (1d)
-You have been punished in 3 of the last 5 tasks; repeated reason: tests. Adjust your behavior to earn tokens.
-```
-
-## Overlay (Electron)
-
-```bash
-npm install        # installs electron into the overlay workspace
+# optional menu-bar app (⌘⇧G treat · ⌘⇧B bad dog)
 npm run overlay
 ```
 
-A menu-bar icon appears. Use the global shortcuts:
+Then start a **new** Claude Code session and ask it how many treats it has — it'll know.
 
-- **⌘⇧G** — reward (wand sparkle burst + chime, +1 token)
-- **⌘⇧B** — punish (whip crack + red flash + thud, -1 token)
+> `treats` becomes a global command once installed (symlinked to your PATH).
+> Internally `good` = `reward` and `bad` = `punish` (both spellings work).
 
-The overlay window is fully click-through (you can keep working underneath it).
-The tray menu switches modes, toggles visibility, and toggles **"Type messages
-into terminal"** (default **off**).
+## Commands
 
-### Accessibility permission
+```bash
+treats good  [reason...]   # +1 treat for good work
+treats bad   [reason...]   # -1 (a scolding) for bad work
+treats undo               # take back the last treat/scolding (misclick)
+treats reset --yes        # wipe the record (backs it up first)
+treats status [--json]    # treats, rank, obedience, last thing it did
+treats report             # a markdown training report card
+treats report --archive   # date-stamped card into the archive
+```
 
-The "type into terminal" option uses `osascript` System Events keystrokes, which
-require **Accessibility** permission (System Settings → Privacy & Security →
-Accessibility) for the overlay app (or the terminal that launched it in dev).
-Keystrokes go to the **frontmost** app, so this only types into Claude Code when
-its terminal has focus. Test it against a TextEdit window first.
+## How it actually works (the feedback loop)
 
-## Grades
+`treats install-hooks` adds three [Claude Code hooks](https://docs.anthropic.com/en/docs/claude-code/hooks)
+to `~/.claude/settings.json` (backing it up first, keeping anything you already had):
 
-| Balance | Grade |
+- **SessionStart** — when a session begins, injects your current standing
+  (treats, rank, last few notes, and a behavioral nudge) into Claude's context.
+- **UserPromptSubmit** — re-injects *only when the score changed* since last time,
+  so a mid-session scolding reaches Claude on its next reply without spamming it
+  every message.
+- **Stop** — remembers which task just finished, so the next `good`/`bad` is
+  attributed to it.
+
+What Claude receives looks like this (capped at ~450 chars):
+
+```
+[Treats] -2 treat(s) — Rank: Needs Training. Recent feedback:
+✗ "skipped writing tests" (2h) | ✗ "too verbose" (1d) | ✓ "great refactor" (1d)
+You've been a bad dog on 3 of the last 5 tasks; repeated reason: tests. Shape up to earn treats.
+```
+
+Everything lives in `~/.treats/` on your own machine — no accounts, no servers.
+
+## The menu-bar app
+
+```bash
+npm run overlay
+```
+
+A bone 🦴 appears in your menu bar with your current score. Global shortcuts:
+
+- **⌘⇧G** — give a treat (sparkle + chime, +1)
+- **⌘⇧B** — bad dog (whip-crack + red flash, -1)
+
+The overlay is fully click-through (keep working underneath it). The tray menu
+switches modes, toggles visibility, and toggles **“type a message into the
+terminal”** (default **off** — needs macOS Accessibility permission; keystrokes
+go to whatever app is focused, so it only types into Claude Code when its
+terminal is in front).
+
+## Ranks
+
+| Treats | Rank |
 |---|---|
-| ≥ 20 | 🎓 Valedictorian |
-| ≥ 10 | 🌟 Honor Roll |
-| ≥ 5  | ⭐ Gold Star Student |
-| ≥ 0  | ✅ Good Standing |
-| -1…-4 | ⚠️ Needs Improvement |
-| ≤ -5 | 🚫 Detention |
-| ≤ -10 | ⛔ Suspended |
+| 20+ | 🏆 Best Boy |
+| 10+ | 🌟 Very Good Boy |
+| 5+ | ⭐ Good Boy |
+| 0+ | 🐶 Good Pup |
+| -1 … -4 | ⚠️ Needs Training |
+| -5 or less | 🚫 Bad Dog |
+| -10 or less | ⛔ Doghouse |
+
+## Weekly report cards
+
+```bash
+npm run install-schedule                       # Mondays 09:00 (macOS launchd)
+node scripts/install-schedule.js --uninstall   # remove it
+```
+
+Cards land in `~/.treats/reports/report-YYYY-MM-DD.md`.
+
+## See the whole loop
+
+```bash
+npm run demo
+```
+
+Walks through reward → scold → what Claude sees → mid-session update → undo →
+report card, end to end.
+
+## Project layout
+
+| Path | What |
+|---|---|
+| `packages/core/src/ledger.js` | atomic score file read/append (the foundation) |
+| `packages/core/bin/treats.js` | the `treats` CLI |
+| `packages/core/src/hooks.js` + `context.js` | hook adapters + the note Claude reads |
+| `packages/overlay/main.js` | menu-bar app + click-through overlay |
+| `scripts/` | asset generators, hook/schedule installers, demo |
 
 ## Uninstall hooks
 
-Restore the timestamped backup that `install-hooks` printed, e.g.:
+Restore the timestamped backup that `install-hooks` printed:
 
 ```bash
 cp ~/.claude/settings.json.backup.<timestamp> ~/.claude/settings.json
 ```
+
+## License
+
+MIT — see [LICENSE](LICENSE). Not affiliated with Anthropic. The "bad dog" bit is
+a playful way to give an AI feedback; be kind to real humans and real dogs. 🐶

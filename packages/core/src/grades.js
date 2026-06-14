@@ -1,26 +1,26 @@
 import { loadConfig } from "./ledger.js";
 
-// Map a balance to a school grade using configurable thresholds.
+// Map a treat balance to a dog-training rank using configurable thresholds.
 export function gradeFor(balance, thresholds = loadConfig().thresholds) {
   if (balance >= thresholds.valedictorian) {
-    return { name: "Valedictorian", emoji: "🎓", tone: "celebratory" };
+    return { name: "Best Boy", emoji: "🏆", tone: "celebratory" };
   }
   if (balance >= thresholds.honorRoll) {
-    return { name: "Honor Roll", emoji: "🌟", tone: "proud" };
+    return { name: "Very Good Boy", emoji: "🌟", tone: "proud" };
   }
   if (balance >= thresholds.goldStar) {
-    return { name: "Gold Star Student", emoji: "⭐", tone: "encouraging" };
+    return { name: "Good Boy", emoji: "⭐", tone: "encouraging" };
   }
   if (balance >= thresholds.goodStanding) {
-    return { name: "Good Standing", emoji: "✅", tone: "neutral" };
+    return { name: "Good Pup", emoji: "🐶", tone: "neutral" };
   }
   if (balance <= thresholds.suspended) {
-    return { name: "Suspended", emoji: "⛔", tone: "stern" };
+    return { name: "Doghouse", emoji: "⛔", tone: "stern" };
   }
   if (balance <= thresholds.detention) {
-    return { name: "Detention", emoji: "🚫", tone: "warning" };
+    return { name: "Bad Dog", emoji: "🚫", tone: "warning" };
   }
-  return { name: "Needs Improvement", emoji: "⚠️", tone: "concerned" };
+  return { name: "Needs Training", emoji: "⚠️", tone: "concerned" };
 }
 
 // Length of the current same-type streak at the end of the ledger.
