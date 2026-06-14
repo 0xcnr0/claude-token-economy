@@ -1,13 +1,13 @@
 # 🦴 Treats
 
-[![Website](https://img.shields.io/badge/website-treats-ffcf4d)](https://claude-token-economy.vercel.app)
+[![Website](https://img.shields.io/badge/website-treats-ffcf4d)](https://treats-ai.vercel.app)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![Platform: macOS](https://img.shields.io/badge/platform-macOS-black)
 
 > **Train Claude Code like a puppy.** Give it a treat 🦴 for good work, a "bad dog" 🚫
 > when it slips — and it actually behaves better next time.
 >
-> **Live demo → [the website](https://claude-token-economy.vercel.app)**
+> **Live demo → [the website](https://treats-ai.vercel.app)**
 
 ## What is this?
 
