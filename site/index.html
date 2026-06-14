@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>claude-token-economy — teach Claude Code with rewards & punishments</title>
+    <meta
+      name="description"
+      content="A school-style token economy for Claude Code. Reward good work, punish sloppy work — and it actually feeds back into Claude's behavior via hooks. CLI + Electron overlay."
+    />
+    <meta property="og:title" content="claude-token-economy" />
+    <meta
+      property="og:description"
+      content="Reward & punish Claude Code — and it actually changes Claude's behavior. Not theater. A real feedback loop."
+    />
+    <meta property="og:type" content="website" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <canvas id="fx"></canvas>
+
+    <header class="nav">
+      <span class="brand">⭐ claude-token-economy</span>
+      <nav>
+        <a href="#how">How it works</a>
+        <a href="#demo">Demo</a>
+        <a href="#install">Install</a>
+        <a class="gh" href="https://github.com/0xcnr0/claude-token-economy" target="_blank" rel="noopener">GitHub ↗</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="badge">a classroom for your AI coding agent</div>
+        <h1>Reward and punish Claude Code —<br /><span class="grad">and it actually listens.</span></h1>
+        <p class="sub">
+          A school-style <strong>token economy</strong> for Claude Code. Give a
+          token for good work, take one for sloppy work. The twist: your grade,
+          balance, and what you punished it for get <strong>injected back into
+          Claude's context</strong> via hooks. Punish "no tests" — and Claude's
+          next reply knows it.
+        </p>
+        <div class="cta-row">
+          <a class="btn primary" href="#demo">Try the demo ↓</a>
+          <a class="btn" href="https://github.com/0xcnr0/claude-token-economy" target="_blank" rel="noopener">Star on GitHub</a>
+        </div>
+        <div class="diff">
+          <div class="diff-col bad">
+            <h3>🪤 The viral whip apps</h3>
+            <p>Smack Claude for being slow. Claude never knows it got smacked. Pure theater.</p>
+          </div>
+          <div class="diff-col good">
+            <h3>⭐ This</h3>
+            <p>Punish Claude for missing tests → its <em>next prompt</em> says <code>Grade: Detention · repeated reason: tests</code> → it adjusts. Theater <em>with</em> substance.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="how" class="how">
+        <h2>How the feedback loop works</h2>
+        <div class="steps">
+          <div class="step"><span>1</span><h3>You judge</h3><p><code>cte reward</code> / <code>cte punish "reason"</code> — from the terminal or the menu-bar overlay (⌘⇧G / ⌘⇧B).</p></div>
+          <div class="step"><span>2</span><h3>The ledger records</h3><p>An atomic JSON ledger tracks every token, your balance, grade and streak — stored in <code>~/.claude-token-economy/</code>.</p></div>
+          <div class="step"><span>3</span><h3>Claude sees it</h3><p>Claude Code hooks (SessionStart / UserPromptSubmit) inject a compact summary into Claude's context, so it adapts on the very next prompt.</p></div>
+        </div>
+      </section>
+
+      <section id="demo" class="demo">
+        <h2>Watch the loop happen</h2>
+        <p class="demo-sub">Reward or punish below. Watch the menu-bar balance, the report card, and — the money shot — the context block Claude receives on its next prompt.</p>
+
+        <div class="demo-grid">
+          <div class="panel controls">
+            <div class="menubar">
+              <span class="mb-icon" id="mbIcon">⭐</span>
+              <span class="mb-balance" id="mbBalance">+0</span>
+              <span class="mb-grade" id="mbGrade">Good Standing</span>
+            </div>
+            <div class="reasons">
+              <button class="btn reward" data-type="reward" data-reason="wrote thorough tests">⭐ Reward · good tests</button>
+              <button class="btn reward" data-type="reward" data-reason="concise, correct fix">⭐ Reward · concise fix</button>
+              <button class="btn punish" data-type="punish" data-reason="skipped writing tests">🚫 Punish · no tests</button>
+              <button class="btn punish" data-type="punish" data-reason="response was too verbose">🚫 Punish · too verbose</button>
+              <button class="btn punish" data-type="punish" data-reason="ignored the lint errors">🚫 Punish · ignored lint</button>
+              <button class="btn ghost" id="undoBtn">↩︎ Undo</button>
+              <button class="btn ghost" id="resetBtn">🧹 Reset</button>
+            </div>
+          </div>
+
+          <div class="panel terminal">
+            <div class="term-head"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="term-title">claude — next prompt context</span></div>
+            <pre id="ctx" class="ctx">[Token Economy] No feedback yet. Earn tokens by being correct, concise and thorough.</pre>
+          </div>
+
+          <div class="panel card">
+            <div class="card-head">📋 Report Card</div>
+            <div class="card-row"><span>Grade</span><b id="rcGrade">✅ Good Standing</b></div>
+            <div class="card-row"><span>Balance</span><b id="rcBalance">0</b></div>
+            <div class="card-row"><span>GPA</span><b id="rcGpa">4.0</b></div>
+            <div class="card-row"><span>Trend</span><b id="rcSpark" class="spark">▁</b></div>
+            <div class="card-history" id="rcHistory"></div>
+          </div>
+        </div>
+        <p class="demo-note">This is a faithful in-browser simulation of the real CLI + hook output. On your machine it's the actual ledger feeding the actual Claude session.</p>
+      </section>
+
+      <section class="features">
+        <h2>What's in the box</h2>
+        <div class="feat-grid">
+          <div class="feat"><h3>🧠 Real behavioral feedback</h3><p>Hooks inject balance + recent reasons into Claude's context. The whole point.</p></div>
+          <div class="feat"><h3>⌨️ Zero-dep CLI</h3><p><code>reward · punish · undo · reset · status · report</code>. The core has no npm dependencies.</p></div>
+          <div class="feat"><h3>🪄 Electron overlay</h3><p>Cursor-following reward wand (sparkles + chime) and punishment whip (verlet rope crack + red flash).</p></div>
+          <div class="feat"><h3>🎓 Grades & GPA</h3><p>Good Standing → Needs Improvement → Detention → Suspended. Weekly auto-generated report cards.</p></div>
+          <div class="feat"><h3>🔊 Synthesized sounds</h3><p>Custom chime and whip-crack WAVs, generated with zero dependencies.</p></div>
+          <div class="feat"><h3>🍎 macOS native</h3><p>Menu-bar app, global shortcuts, launchd scheduling, optional terminal keystroke automation.</p></div>
+        </div>
+      </section>
+
+      <section class="grades">
+        <h2>The grading scale</h2>
+        <table>
+          <tr><td>≥ 20</td><td>🎓 Valedictorian</td></tr>
+          <tr><td>≥ 10</td><td>🌟 Honor Roll</td></tr>
+          <tr><td>≥ 5</td><td>⭐ Gold Star Student</td></tr>
+          <tr><td>≥ 0</td><td>✅ Good Standing</td></tr>
+          <tr><td>-1 … -4</td><td>⚠️ Needs Improvement</td></tr>
+          <tr><td>≤ -5</td><td>🚫 Detention</td></tr>
+          <tr><td>≤ -10</td><td>⛔ Suspended</td></tr>
+        </table>
+      </section>
+
+      <section id="install" class="install">
+        <h2>Get started</h2>
+        <pre class="code"><code>git clone https://github.com/0xcnr0/claude-token-economy
+cd claude-token-economy
+npm install
+
+# wire the hooks into Claude Code (backs up your settings first)
+node packages/core/bin/cte.js install-hooks
+
+# judge your agent
+cte reward "wrote thorough tests"
+cte punish "skipped the edge cases"
+
+# launch the menu-bar overlay (⌘⇧G reward · ⌘⇧B punish)
+npm run overlay</code></pre>
+        <p class="tip">Then start a new Claude Code session and ask it what its token-economy standing is. It'll know.</p>
+      </section>
+    </main>
+
+    <footer>
+      <p>Built with a wink for the Claude Code community. <a href="https://github.com/0xcnr0/claude-token-economy" target="_blank" rel="noopener">Source on GitHub</a>.</p>
+      <p class="fine">The "punishment" is a playful productivity metaphor for an AI tool — be good to actual people. Not affiliated with Anthropic.</p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
