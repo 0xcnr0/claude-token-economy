@@ -32,43 +32,54 @@ Inspired by the viral whip/wand overlays (**BadClaude / OpenWhip** and
 **GoodClaude**) — but those were pure theater; Claude never knew it got smacked.
 Treats closes the loop: the feedback actually reaches Claude.
 
-## Quick start
+## Install (the easy way — Claude Code plugin)
 
-You need Claude Code + Node.js on a Mac.
+In any Claude Code session, run two lines, once:
+
+```
+/plugin marketplace add 0xcnr0/treats
+/plugin install treats
+```
+
+That's it. You instantly get the slash commands below, the feedback hooks are
+wired automatically (so your reactions reach Claude on its next reply), and you
+can turn on the walking status line. **No clone, no npm, no terminal switching.**
+
+## Use it — right inside the session
+
+```
+/treats:good wrote thorough tests and kept it concise
+/treats:bad  skipped the edge cases
+/treats:status            # treats, rank, last thing it did
+/treats:report            # training report card
+/treats:undo              # take back the last one (misclick)
+/treats:animal cat        # change your animal (dog/cat/dragon/horse/hamster/parrot)
+/treats:statusline        # show your animal walking in the status bar
+```
+
+One line, no leaving the prompt. Reward what you like, scold what you don't —
+Claude sees its running score and recent feedback on the very next message.
+
+## Manual install (from source — needed only for the menu-bar overlay)
 
 ```bash
 git clone https://github.com/0xcnr0/treats
 cd treats
 npm install
-
-# teach Claude Code to listen (backs up your settings first)
-node packages/core/bin/treats.js install-hooks
-
-# train your puppy 🦴
-treats good "wrote thorough tests"
-treats bad  "skipped the edge cases"
-
-# optional menu-bar app (⌘⇧G treat · ⌘⇧B bad dog)
-npm run overlay
+node packages/core/bin/treats.js install-hooks        # wire the hooks
+node packages/core/bin/treats.js install-statusline    # walking status bar
+npm run overlay                                        # menu-bar app (macOS)
 ```
 
-Then start a **new** Claude Code session and ask it how many treats it has — it'll know.
+From source you also get a global `treats` CLI and the overlay with global
+hotkeys (⌘⇧G / Ctrl+Shift+G to treat, ⌘⇧B / Ctrl+Shift+B to scold).
 
-> `treats` becomes a global command once installed (symlinked to your PATH).
-> Internally `good` = `reward` and `bad` = `punish` (both spellings work).
+## Pick your animal 🐶🐱🐉🐴🐹🦜
 
-## Commands
-
-```bash
-treats good  [reason...]   # +1 treat for good work
-treats bad   [reason...]   # -1 (a scolding) for bad work
-treats undo               # take back the last treat/scolding (misclick)
-treats reset --yes        # wipe the record (backs it up first)
-treats status [--json]    # treats, rank, obedience, last thing it did
-treats report             # a markdown training report card
-treats report --archive   # date-stamped card into the archive
-treats animal [name]      # pick your animal (dog/cat/dragon/horse/hamster/parrot)
-```
+Your AI doesn't have to be a dog. `/treats:animal cat` and the whole thing
+re-themes — emojis, ranks and phrasing follow. A cat climbs from *Fine Feline*
+to *Top Cat* (or lands at the *Spray Bottle*); a dragon grows its hoard from
+*Hatchling* to *Elder Wyrm*. Try them live on the [website](https://treats-ai.vercel.app).
 
 ## Pick your animal 🐶🐱🐉🐴🐹🦜
 

@@ -1,0 +1,17 @@
+{
+  "name": "treats",
+  "owner": { "name": "0xcnr0", "url": "https://github.com/0xcnr0" },
+  "metadata": {
+    "description": "Treats — train Claude Code like a puppy.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "treats",
+      "source": "./",
+      "description": "Reward/punish Claude Code from inside the session (/treats:good, /treats:bad). Feedback feeds back into Claude's context via hooks, with ranks, report cards, and a walking status-line animal.",
+      "homepage": "https://treats-ai.vercel.app",
+      "keywords": ["claude-code", "feedback", "gamification", "productivity"]
+    }
+  ]
+}

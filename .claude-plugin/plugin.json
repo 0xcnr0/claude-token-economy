@@ -1,0 +1,8 @@
+{
+  "name": "treats",
+  "version": "0.1.0",
+  "description": "Train Claude Code like a puppy. Reward good work with /treats:good and scold slips with /treats:bad — your feedback feeds back into Claude's context via hooks, and your animal walks in the status bar.",
+  "homepage": "https://treats-ai.vercel.app",
+  "author": { "name": "0xcnr0", "url": "https://github.com/0xcnr0" },
+  "keywords": ["claude-code", "feedback", "gamification", "productivity", "reward"]
+}

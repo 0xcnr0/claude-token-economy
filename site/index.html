@@ -39,8 +39,9 @@
           <strong>Claude Code</strong> is an AI assistant that writes code for you
           in the terminal. Sometimes it nails it. Sometimes it gets lazy.
           <strong>Treats</strong> lets you reward the good and correct the bad —
-          give it a treat 🦴 for great work, a "bad dog" 🚫 when it slips. And here's
-          the part that matters: <strong>it remembers, and it behaves better next time.</strong>
+          type <code>/treats:good</code> for a treat 🦴, <code>/treats:bad</code> for a
+          "bad dog" 🚫, right in the prompt. And here's the part that matters:
+          <strong>it remembers, and it behaves better next time.</strong>
         </p>
         <div class="cta-row">
           <a class="btn primary" href="#demo">Try the demo ↓</a>
@@ -74,8 +75,8 @@
           </div>
           <div class="step">
             <span>2</span>
-            <h3>You react</h3>
-            <p>Happy with it? <code>treats good</code> → a treat. Not happy? <code>treats bad "no tests"</code> → a scolding. Or use the menu-bar shortcuts: <b>⌘⇧G</b> / <b>⌘⇧B</b> on Mac, <b>Ctrl+Shift+G</b> / <b>Ctrl+Shift+B</b> on Windows &amp; Linux.</p>
+            <h3>You react — in the prompt</h3>
+            <p>Right in the Claude Code box: <code>/treats:good</code> for a treat, <code>/treats:bad no tests</code> for a scolding. One line, no second terminal. (Prefer a hotkey? The menu-bar app adds <b>⌘⇧G</b> / <b>Ctrl+Shift+G</b>.)</p>
           </div>
           <div class="step">
             <span>3</span>
@@ -179,24 +180,23 @@
       <!-- INSTALL -->
       <section id="install" class="install">
         <h2>Get started</h2>
-        <p class="install-intro">You'll need <a href="https://www.npmjs.com/package/@anthropic-ai/claude-code" target="_blank" rel="noopener">Claude Code</a> and Node.js. The CLI &amp; hooks run on <b>macOS, Windows and Linux</b>; the menu-bar app is best on macOS. Then:</p>
-        <pre class="code"><code>git clone https://github.com/0xcnr0/treats
-cd treats
+        <p class="install-intro">The easy way — in any <a href="https://www.npmjs.com/package/@anthropic-ai/claude-code" target="_blank" rel="noopener">Claude Code</a> session, run two lines once:</p>
+        <pre class="code"><code>/plugin marketplace add 0xcnr0/treats
+/plugin install treats</code></pre>
+        <p class="install-intro" style="margin-top:22px">Then just talk to it — right inside the session, no second terminal:</p>
+        <pre class="code"><code>/treats:good   wrote thorough tests
+/treats:bad    skipped the edge cases
+/treats:status        # treats, rank, last thing it did
+/treats:animal cat    # change your animal
+/treats:statusline    # walking status-bar animal</code></pre>
+        <p class="tip">Hooks are wired automatically — Claude sees its score on the very next message. No clone, no npm, no terminal switching.</p>
+        <details class="from-source">
+          <summary>Prefer the menu-bar app + CLI? Install from source</summary>
+          <pre class="code"><code>git clone https://github.com/0xcnr0/treats &amp;&amp; cd treats
 npm install
-
-# teach Claude Code to listen (it backs up your settings first)
 node packages/core/bin/treats.js install-hooks
-
-# pick your animal (dog · cat · dragon · horse · hamster · parrot)
-node packages/core/bin/treats.js animal cat
-
-# now train it
-treats good "wrote thorough tests"
-treats bad  "skipped the edge cases"
-
-# optional: the menu-bar app (⌘⇧G / Ctrl+Shift+G to treat)
-npm run overlay</code></pre>
-        <p class="tip">Start a fresh Claude Code session and ask it how many treats it has. It'll know.</p>
+npm run overlay   # menu-bar app, ⌘⇧G / Ctrl+Shift+G to treat</code></pre>
+        </details>
       </section>
     </main>
 
