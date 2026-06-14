@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install
+        run: npm install
+      - name: Syntax check core
+        run: |
+          for f in packages/core/src/*.js packages/core/bin/*.js scripts/*.js; do
+            node --check "$f"
+          done
+      - name: Generate assets (sounds + icons)
+        run: npm run gen-assets
+      - name: Smoke-test the CLI feedback loop
+        run: |
+          node packages/core/bin/cte.js reset --yes
+          node packages/core/bin/cte.js reward ci test
+          node packages/core/bin/cte.js punish ci test
+          node packages/core/bin/cte.js undo
+          node packages/core/bin/cte.js status --json
+          echo '{"hook_event_name":"SessionStart"}' | node packages/core/bin/cte.js hook session-start
+          node packages/core/bin/cte.js reset --yes

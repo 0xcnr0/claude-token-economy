@@ -1,0 +1,24 @@
+{
+  "name": "claude-token-economy",
+  "version": "0.1.0",
+  "private": true,
+  "description": "School-style token economy (reward/punishment) system for Claude Code: CLI + hooks core with an Electron overlay (reward wand / punishment whip).",
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "bin": {
+    "cte": "packages/core/bin/cte.js"
+  },
+  "scripts": {
+    "cte": "node packages/core/bin/cte.js",
+    "install-hooks": "node packages/core/bin/cte.js install-hooks",
+    "install-schedule": "node scripts/install-schedule.js",
+    "gen-sounds": "node scripts/gen-sounds.js",
+    "gen-icons": "node scripts/gen-icons.js",
+    "gen-assets": "node scripts/gen-sounds.js && node scripts/gen-icons.js",
+    "demo": "bash scripts/demo.sh",
+    "overlay": "env -u ELECTRON_RUN_AS_NODE electron packages/overlay"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build / dist
+dist/
+build/
+out/
+.vercel/
+
+# macOS
+.DS_Store
+*.swp
+
+# Logs
+*.log
+npm-debug.log*
+
+# Editor
+.vscode/
+.idea/
+
+# Runtime data lives in ~/.claude-token-economy/ (never in the repo)

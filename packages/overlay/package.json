@@ -1,0 +1,15 @@
+{
+  "name": "@cte/overlay",
+  "version": "0.1.0",
+  "description": "Electron overlay: reward wand and punishment whip for Claude Code.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "dependencies": {
+    "@cte/core": "*"
+  },
+  "devDependencies": {
+    "electron": "^31.0.0"
+  }
+}
