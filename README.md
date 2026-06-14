@@ -1,5 +1,11 @@
 # claude-token-economy
 
+[![Website](https://img.shields.io/badge/website-claude--token--economy.vercel.app-ffcf4d)](https://claude-token-economy.vercel.app)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+![Platform: macOS](https://img.shields.io/badge/platform-macOS-black)
+
+> **Live demo & landing page → [claude-token-economy.vercel.app](https://claude-token-economy.vercel.app)**
+
 A school-style **token economy** (reward / punishment) system for Claude Code.
 Reward Claude for good work (+1 token, ⭐ wand + chime) and punish it for sloppy
 work (-1 token, 🚫 whip + crack). The current balance and recent feedback are
