@@ -3,15 +3,15 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Treats — train Claude Code like a puppy 🦴</title>
+    <title>Treats — train your AI by petting a cute little pet 🦴</title>
     <meta
       name="description"
-      content="Treats is a tiny tool for Claude Code. Give your AI a treat when it does good work and a 'bad dog' when it doesn't — and it actually remembers and behaves better. CLI + menu-bar app for macOS."
+      content="A cute little pet that lives on your screen and helps you train your AI coding helper. Pet it when the AI does well, scold it when it doesn't — and the AI actually pays attention and does better. No commands to learn."
     />
-    <meta property="og:title" content="Treats — train Claude Code like a puppy" />
+    <meta property="og:title" content="Treats — train your AI by petting a cute little pet" />
     <meta
       property="og:description"
-      content="Reward your AI coding assistant with treats, scold it when it slips — and it actually changes its behavior."
+      content="Pet a cute animal when your AI does good work, scold it when it slips — and the AI actually does better next time."
     />
     <meta property="og:type" content="website" />
     <link rel="stylesheet" href="styles.css" />
@@ -33,17 +33,18 @@
     <main>
       <!-- HERO -->
       <section class="hero">
-        <div class="badge">for Claude Code · macOS · Windows · Linux</div>
-        <h1>A pet that<br /><span class="grad">trains your AI.</span></h1>
+        <div class="badge">a cute desktop pet for your AI helper</div>
+        <h1>Train your AI<br /><span class="grad">by petting a pet.</span></h1>
         <p class="sub">
-          <strong>Claude Code</strong> writes code for you — and sometimes gets
-          lazy. <strong>Treats</strong> puts a little animal in the corner of your
-          screen. When Claude does well, you <strong>pet it with your mouse</strong> 🖐️;
-          when it slips, you scold it. The cute part is the front — underneath,
-          your reaction is fed back to Claude, so <strong>it behaves better next time.</strong>
+          You know those AI helpers that write code for you (like
+          <strong>Claude Code</strong>)? They're great — but sometimes lazy.
+          <strong>Treats</strong> gives you a little animal on your screen. When the
+          AI does a good job, you <strong>pet it with your mouse</strong> 🖐️; when it
+          slips, you give it a stern look. Somehow the AI <strong>notices, and tries
+          harder next time.</strong>
         </p>
         <div class="cta-row">
-          <a class="btn primary" href="#demo">Pet it yourself ↓</a>
+          <a class="btn primary" href="#demo">Pet one yourself ↓</a>
           <a class="btn" href="https://github.com/0xcnr0/treats" target="_blank" rel="noopener">Get it on GitHub</a>
         </div>
       </section>
@@ -74,25 +75,25 @@
           </div>
           <div class="step">
             <span>2</span>
-            <h3>You pet (or scold)</h3>
-            <p>Happy? <b>Pet the animal</b> with your mouse 🖐️ (or press ⌘⇧G). Not happy? Right-click to scold (or ⌘⇧B). Prefer typing? <code>/treats:good</code> and <code>/treats:bad</code> work too — but you don't have to.</p>
+            <h3>You pet it — or scold it</h3>
+            <p>Happy with the work? <b>Pet the animal</b> with your mouse 🖐️. Not happy? Give it a stern right-click. That's it — there's nothing to type. (A keyboard shortcut works too, if you like.)</p>
           </div>
           <div class="step">
             <span>3</span>
-            <h3>Claude remembers next time</h3>
-            <p>The next time you talk to Claude, it silently sees its score and what you scolded it for — so it adjusts. That's the whole trick.</p>
+            <h3>The AI tries harder</h3>
+            <p>Before the AI answers you next time, it quietly gets a little note about how it's been doing — so it cleans up its act. That's the whole trick.</p>
           </div>
         </div>
-        <p class="how-note">No setup wizardry — one command wires it into Claude Code. After that it just works in the background.</p>
+        <p class="how-note">It runs quietly in the background. You set it up once, then forget it's there — until you reach over and pet the little guy.</p>
       </section>
 
       <!-- DEMO -->
       <section id="demo" class="demo">
         <h2>Try it right here</h2>
         <p class="demo-sub">
-          Press the buttons. Watch three things change: the <b>score</b> in the
-          menu bar, the <b>report card</b>, and — most importantly — the little
-          note Claude secretly reads before its next reply.
+          Go ahead — click the animal below. Watch three things change: its
+          <b>score</b>, its <b>report card</b>, and — the important one — the little
+          note the AI quietly reads before it answers you next.
         </p>
 
         <div class="animal-picker">
@@ -144,15 +145,16 @@
 
       <!-- WHY DIFFERENT -->
       <section class="diffsec">
-        <h2>“Isn't this just the whip meme?”</h2>
+        <h2>But does it actually <em>do</em> anything?</h2>
+        <p class="demo-sub" style="text-align:center;max-width:640px;margin:0 auto 4px">Yes — and that's the difference between Treats and a toy.</p>
         <div class="diff">
           <div class="diff-col bad">
-            <h3>🪤 The viral whip apps</h3>
-            <p>Funny overlays that "smack" Claude to go faster. But Claude never actually finds out it was smacked. It's a joke, nothing more.</p>
+            <h3>🪤 Just for laughs</h3>
+            <p>There are funny apps that "yell" at the AI to go faster. Cute, but the AI never actually hears it. Nothing really changes.</p>
           </div>
           <div class="diff-col good">
             <h3>🦴 Treats</h3>
-            <p>Your reward or scolding is fed back into Claude's next prompt. Scold it for "no tests" → it literally reads <code>repeated reason: tests</code> next time → it writes the tests. A joke that actually works.</p>
+            <p>Your pet-or-scold is genuinely passed back to the AI. Scold it for skipping tests, and next time it remembers "I keep getting in trouble for tests" — so it writes them. A toy that actually works.</p>
           </div>
         </div>
       </section>
@@ -163,13 +165,13 @@
         <div class="feat-grid">
           <div class="feat"><h3>🖐️ Pet it with your mouse</h3><p>A little animal lives in your screen corner. Click to treat, right-click to scold, drag it anywhere. No commands to memorize.</p></div>
           <div class="feat"><h3>🔊 It's alive</h3><p>It barks (or meows, or rawrs) when you treat it, whimpers when scolded, wiggles on its own, and curls up to sleep 💤 when you're idle.</p></div>
-          <div class="feat"><h3>🧠 It actually sticks</h3><p>Your feedback is shown back to Claude, so rewards and scoldings change how it works — not just how you feel.</p></div>
-          <div class="feat"><h3>⌨️ Two-word commands</h3><p><code>treats good</code> · <code>treats bad</code> · <code>treats status</code> · <code>treats report</code>. That's the whole thing.</p></div>
-          <div class="feat"><h3>🦴 Menu-bar app</h3><p>A little tray icon. <b>⌘⇧G</b> / <b>Ctrl+Shift+G</b> to treat, <b>⌘⇧B</b> / <b>Ctrl+Shift+B</b> to scold — with a sparkle, a chime, or a thud.</p></div>
-          <div class="feat"><h3>🐾 Walks in your status bar</h3><p>Install the status line and your animal strolls along the bottom of every terminal Claude Code session: <code>🦴 ··🐶·· +3 treats · Good Pup</code>.</p></div>
-          <div class="feat"><h3>🐶 Ranks & report cards</h3><p>Good Pup → Good Boy → Best Boy, or slide down to Bad Dog and the Doghouse. Weekly report cards included.</p></div>
-          <div class="feat"><h3>📁 One pet, many projects</h3><p>Juggling several Claude Code sessions? Each project is scored separately — every session sees only its own standing, and the pet follows whichever project you're working in.</p></div>
-          <div class="feat"><h3>🔒 Private & local</h3><p>Everything lives in a file on your own Mac. No accounts, no servers, no money.</p></div>
+          <div class="feat"><h3>🧠 It actually sticks</h3><p>Your reactions are passed back to the AI, so a treat or a scolding changes how it works — not just how you feel.</p></div>
+          <div class="feat"><h3>⌨️ Or just say the word</h3><p>Don't want to reach for the mouse? A quick <code>/treats:good</code> or <code>/treats:bad</code> works too. Totally optional.</p></div>
+          <div class="feat"><h3>⌨️ One-key shortcut</h3><p>Hands on the keyboard? <b>⌘⇧G</b> (or <b>Ctrl+Shift+G</b>) gives a treat, <b>⌘⇧B</b> scolds — from anywhere, with a happy chime or a thud.</p></div>
+          <div class="feat"><h3>🐾 Always in view</h3><p>Your animal can also stroll along the bottom of the screen while you work, showing its score — a tiny pet that's always there: <code>🦴 ··🐶·· +3</code>.</p></div>
+          <div class="feat"><h3>🏆 Ranks & report cards</h3><p>It climbs from Good Pup to Best Boy when you're pleased, or slides down to Bad Dog and the Doghouse when you're not. With weekly report cards.</p></div>
+          <div class="feat"><h3>📁 One pet, many projects</h3><p>Working on several things at once? Each project gets its own score, and the pet shows whichever one you're currently working on.</p></div>
+          <div class="feat"><h3>🔒 Private &amp; yours</h3><p>It all lives in a little file on your own computer. No accounts, no sign-up, no money, nothing sent anywhere.</p></div>
           <div class="feat"><h3>↩︎ Forgiving</h3><p>Pressed the wrong button? <code>treats undo</code> takes it right back.</p></div>
         </div>
       </section>
@@ -186,21 +188,22 @@
       <!-- INSTALL -->
       <section id="install" class="install">
         <h2>Get started</h2>
+        <p class="install-intro">You'll need <a href="https://www.npmjs.com/package/@anthropic-ai/claude-code" target="_blank" rel="noopener">Claude Code</a> — the AI coding helper Treats sits on top of. Then pick a path. Don't worry if the lines below look like gibberish: copy, paste, press enter.</p>
 
-        <h3 class="install-h">🖐️ Want the desktop pet? (macOS)</h3>
-        <p class="install-intro">Four lines, once — then a cute animal you pet with your mouse:</p>
+        <h3 class="install-h" style="margin-top:28px">🖐️ The full pet (macOS)</h3>
+        <p class="install-intro">Paste these one at a time — then a little animal pops up in the corner:</p>
         <pre class="code"><code>git clone https://github.com/0xcnr0/treats
 cd treats
 npm install
-node packages/core/bin/treats.js install   # wire it into Claude Code
-npm run pet                                 # 🐶 your pet appears, bottom-right</code></pre>
-        <p class="tip">Click / stroke the pet → treat · right-click → scold · drag → move. Or ⌘⇧G / ⌘⇧B from anywhere.</p>
+node packages/core/bin/treats.js install
+npm run pet</code></pre>
+        <p class="tip">Click the pet → treat · right-click → scold · drag it anywhere. That's the whole thing.</p>
 
-        <h3 class="install-h" style="margin-top:40px">⚡ Just want zero setup? (any OS)</h3>
-        <p class="install-intro">No terminal at all — in any <a href="https://www.npmjs.com/package/@anthropic-ai/claude-code" target="_blank" rel="noopener">Claude Code</a> session, run two lines:</p>
+        <h3 class="install-h" style="margin-top:40px">⚡ The 10-second version (any computer)</h3>
+        <p class="install-intro">No pet, but the AI still learns from you. Inside Claude Code, type these two lines:</p>
         <pre class="code"><code>/plugin marketplace add 0xcnr0/treats
 /plugin install treats</code></pre>
-        <p class="tip">No pet window, but the feedback loop works: react with <code>/treats:good</code> · <code>/treats:bad</code> when you feel like it. Hooks wire up automatically.</p>
+        <p class="tip">Then just say <code>/treats:good</code> or <code>/treats:bad</code> whenever you like. Everything sets itself up.</p>
       </section>
     </main>
 

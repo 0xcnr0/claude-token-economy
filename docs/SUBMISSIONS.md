@@ -13,13 +13,13 @@ to submit via their web form/PR — do not automate them.**
 - **Category:** Tooling → Plugins (also fits Slash-Commands / Hooks / Status Lines)
 - **License:** MIT
 - **Description (paste):**
-  > A desktop pet that trains Claude Code. A little animal sits in your screen
-  > corner — pet it with your mouse to reward good work, right-click to scold a
-  > slip — and your reaction is injected back into Claude's context via hooks, so
-  > it actually adjusts (scold "no tests" → its next reply sees `repeated reason:
-  > tests`). Pick your animal (dog/cat/dragon/horse/hamster/parrot) with its own
-  > ranks and report cards, a walking status-line animal, and optional
-  > `/treats:good` · `/treats:bad` slash commands.
+  > A cute desktop pet that helps you train Claude Code. A little animal sits in
+  > your screen corner — pet it with your mouse when the AI does good work,
+  > right-click to scold a slip — and your reaction is quietly handed back to the
+  > AI, so it actually does better next time (scold "no tests" → next time it
+  > writes them). Pick your animal (dog/cat/dragon/horse/hamster/parrot), each
+  > with its own moods, ranks and report cards. Every project keeps its own score.
+  > Don't want the pet? Optional `/treats:good` · `/treats:bad` work too.
 - **Security notes (they ask):** Fully local — no network calls, no telemetry, no
   bypass-permissions required. Data lives in `~/.treats/`. Hooks exit 0 and
   swallow errors so they can never block a session.

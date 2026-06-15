@@ -2,7 +2,7 @@
   "name": "treats",
   "version": "0.1.0",
   "private": true,
-  "description": "Treats — train Claude Code like a puppy. Give it a treat for good work, a scolding for bad work, and it actually adjusts (rewards/punishments feed back into Claude's context via hooks). CLI + Electron overlay.",
+  "description": "Treats — a cute desktop pet that helps you train your AI coding helper. Pet it (or say /treats:good) when it does great work, scold it when it slips, and it actually does better next time. Pick your animal; each project keeps its own score.",
   "type": "module",
   "workspaces": [
     "packages/*"

@@ -4,34 +4,34 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![Platform](https://img.shields.io/badge/CLI-macOS%20%C2%B7%20Windows%20%C2%B7%20Linux-black)
 
-> **A little pet that lives on your desktop and trains Claude Code.**
-> Pet it with your mouse 🖐️ when Claude does good work, give it a stern look when
-> it slips — and Claude actually behaves better next time.
+> **A cute little pet that helps you train your AI.**
+> Pet it with your mouse 🖐️ when your AI does good work, give it a stern look when
+> it slips — and the AI actually pays attention and does better next time.
 >
 > **Live demo → [the website](https://treats-ai.vercel.app)**
 
 ## What is this?
 
-[Claude Code](https://www.npmjs.com/package/@anthropic-ai/claude-code) is an AI
-assistant that writes code for you. Sometimes it's brilliant; sometimes it gets
-lazy (skips tests, rambles, ignores errors).
+You know those AI helpers that write code for you — like
+[Claude Code](https://www.npmjs.com/package/@anthropic-ai/claude-code)? They're
+great, but sometimes they get lazy (skip tests, ramble, ignore errors).
 
 **Treats** gives you a tiny animal that sits in the corner of your screen. When
-Claude nails it, you **pet the animal with your mouse** (or press one key) and it
-gets a treat 🦴. When Claude slips, you scold it. The cute part is the front; the
-real part is underneath: **your reaction is fed back into Claude's context**, so
-it remembers and adjusts.
+the AI nails it, you **pet the animal with your mouse** (or press one key) and it
+gets a treat 🦴. When it slips, you give it a stern look. The cute part is the
+front; the useful part is underneath: **your reaction is quietly handed back to
+the AI**, so it remembers and tries harder.
 
-> No commands to memorize, no second terminal — just pet the little guy.
+> Nothing to memorize, no second window — just reach over and pet the little guy.
 
-- Give a treat → Claude's score goes up.
-- Bad dog → score goes down (low enough and it's in the "doghouse").
-- Every time you talk to Claude, it quietly sees its score and what you scolded
-  it for. Scold it for "no tests" → its next reply knows `repeated reason: tests`
-  → it writes the tests.
+- Pet it → the score goes up.
+- Scold it → the score goes down (low enough and it's in the "doghouse").
+- Before the AI answers you next time, it quietly sees its score and what you were
+  unhappy about. Scold it for skipping tests → next time it remembers, and writes
+  them.
 
 A "treat" isn't money or crypto — it's just a **point**, like a gold star in a
-notebook. You're the trainer; Claude is the puppy.
+notebook. You're the trainer; the AI is the puppy.
 
 Inspired by the viral whip/wand overlays (**BadClaude / OpenWhip** and
 **GoodClaude**) — but those were pure theater; Claude never knew it got smacked.
