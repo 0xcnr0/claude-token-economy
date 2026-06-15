@@ -1,5 +1,5 @@
 // Desktop pet renderer: a little animal you pet with the mouse.
-// Click / stroke = treat (+1), right-click = scold (-1), drag to move.
+// Quick click = treat (+1). Press-and-drag = move the window. Right-click = scold.
 // State (animal, treats, rank, mood) comes from the main process.
 
 const petWrap = document.getElementById("petWrap");
@@ -8,7 +8,6 @@ const moodEl = document.getElementById("mood");
 const treatsEl = document.getElementById("treats");
 const rankEl = document.getElementById("rank");
 const redflash = document.getElementById("redflash");
-const stage = document.getElementById("stage");
 
 let state = { emoji: "🐶", treat: "🦴", balance: 0, rank: "Good Pup", tone: "neutral" };
 
@@ -16,7 +15,6 @@ function render() {
   petEl.textContent = state.emoji;
   treatsEl.textContent = `${state.balance > 0 ? "+" : ""}${state.balance} ${state.treat}`;
   rankEl.textContent = state.rank;
-  // Idle mood badge
   petWrap.classList.toggle("show-mood", state.tone === "celebratory" || state.tone === "proud");
   moodEl.textContent = "✨";
 }
@@ -36,22 +34,19 @@ function spawnParticles(chars, count) {
     const p = document.createElement("span");
     p.className = "particle";
     p.textContent = chars[Math.floor(Math.random() * chars.length)];
-    const startX = rect.left + rect.width / 2 - 9;
-    const startY = rect.top + rect.height / 2 - 9;
-    p.style.left = `${startX}px`;
-    p.style.top = `${startY}px`;
+    p.style.left = `${rect.left + rect.width / 2 - 9}px`;
+    p.style.top = `${rect.top + rect.height / 2 - 9}px`;
     document.body.appendChild(p);
     const ang = -Math.PI / 2 + (Math.random() - 0.5) * 1.6;
     const dist = 26 + Math.random() * 34;
     const dx = Math.cos(ang) * dist;
     const dy = Math.sin(ang) * dist - 10;
-    const dur = 600 + Math.random() * 400;
     p.animate(
       [
         { transform: "translate(0,0) scale(1)", opacity: 1 },
         { transform: `translate(${dx}px, ${dy}px) scale(1.3)`, opacity: 0 },
       ],
-      { duration: dur, easing: "cubic-bezier(.2,.7,.3,1)" },
+      { duration: 600 + Math.random() * 400, easing: "cubic-bezier(.2,.7,.3,1)" },
     ).onfinish = () => p.remove();
   }
 }
@@ -71,11 +66,11 @@ function reactSad() {
   setTimeout(() => redflash.classList.remove("on"), 220);
 }
 
-// --- interactions ---
+// --- treat / scold ---
 let lastPat = 0;
 function pat() {
   const now = Date.now();
-  if (now - lastPat < 350) return; // debounce rapid double-fire
+  if (now - lastPat < 300) return;
   lastPat = now;
   reactHappy();
   window.cte?.petPat?.();
@@ -85,35 +80,49 @@ function scold() {
   window.cte?.petScold?.();
 }
 
-// Left click anywhere on the pet = a pat.
-petWrap.addEventListener("click", pat);
-// Right click = scold (suppress native menu).
+// Right-click = scold (suppress native menu).
 window.addEventListener("contextmenu", (e) => {
   e.preventDefault();
   scold();
 });
 
-// Stroking: accumulate mouse movement over the pet; a good stroke = a pat,
-// with a cooldown so you can't farm treats by wiggling.
-let strokeDist = 0;
-let lastStroke = 0;
-let lastX = null, lastY = null;
-petWrap.addEventListener("mousemove", (e) => {
-  if (lastX !== null) {
-    strokeDist += Math.hypot(e.clientX - lastX, e.clientY - lastY);
+// --- press-and-drag to move, quick click to pat ---
+// Dragging works from anywhere in the window (including the pet). A real drag
+// suppresses the click so you don't accidentally treat while repositioning.
+let down = false, startX = 0, startY = 0, moved = false, suppressClick = false;
+
+document.addEventListener("mousedown", (e) => {
+  if (e.button !== 0) return; // left button only
+  down = true;
+  moved = false;
+  startX = e.screenX;
+  startY = e.screenY;
+  window.cte?.petDragStart?.();
+});
+document.addEventListener("mousemove", (e) => {
+  if (!down) return;
+  const dx = e.screenX - startX;
+  const dy = e.screenY - startY;
+  if (!moved && Math.hypot(dx, dy) > 4) {
+    moved = true;
+    document.body.style.cursor = "grabbing";
   }
-  lastX = e.clientX;
-  lastY = e.clientY;
-  const now = Date.now();
-  if (strokeDist > 140 && now - lastStroke > 2500) {
-    strokeDist = 0;
-    lastStroke = now;
-    pat();
+  if (moved) window.cte?.petDragMove?.(dx, dy);
+});
+document.addEventListener("mouseup", () => {
+  if (!down) return;
+  down = false;
+  document.body.style.cursor = "";
+  if (moved) {
+    suppressClick = true;
+    setTimeout(() => (suppressClick = false), 60);
   }
 });
-petWrap.addEventListener("mouseleave", () => {
-  strokeDist = 0;
-  lastX = lastY = null;
+
+// Quick click on the pet = a pat (unless it was actually a drag).
+petWrap.addEventListener("click", () => {
+  if (suppressClick) return;
+  pat();
 });
 
 // Main process can also trigger reactions (e.g. global hotkeys).

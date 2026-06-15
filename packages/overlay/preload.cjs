@@ -5,6 +5,8 @@ contextBridge.exposeInMainWorld("cte", {
   // desktop pet
   petPat: () => ipcRenderer.send("pet:pat"),
   petScold: () => ipcRenderer.send("pet:scold"),
+  petDragStart: () => ipcRenderer.send("pet:dragStart"),
+  petDragMove: (dx, dy) => ipcRenderer.send("pet:dragMove", { dx, dy }),
   onPetState: (cb) => ipcRenderer.on("pet:state", (_e, s) => cb(s)),
   onPetReact: (cb) => ipcRenderer.on("pet:react", (_e, kind) => cb(kind)),
   // legacy fullscreen overlay

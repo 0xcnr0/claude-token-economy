@@ -52,7 +52,7 @@ function petState() {
 
 function createPetWindow() {
   const wa = screen.getPrimaryDisplay().workArea;
-  const W = 180, H = 170;
+  const W = 150, H = 150;
   petWin = new BrowserWindow({
     width: W,
     height: H,
@@ -176,6 +176,17 @@ app.whenReady().then(async () => {
   // Mouse on the pet:
   ipcMain.on("pet:pat", () => give("reward"));
   ipcMain.on("pet:scold", () => give("punish"));
+
+  // Drag the pet window by pressing-and-dragging the animal.
+  let dragOrigin = null;
+  ipcMain.on("pet:dragStart", () => {
+    if (petWin && !petWin.isDestroyed()) dragOrigin = petWin.getPosition();
+  });
+  ipcMain.on("pet:dragMove", (_e, { dx, dy }) => {
+    if (dragOrigin && petWin && !petWin.isDestroyed()) {
+      petWin.setPosition(Math.round(dragOrigin[0] + dx), Math.round(dragOrigin[1] + dy));
+    }
+  });
 
   // One-tap keyboard, anywhere:
   globalShortcut.register("CommandOrControl+Shift+G", () => give("reward"));
