@@ -11,6 +11,7 @@
     "treats": "packages/core/bin/treats.js"
   },
   "scripts": {
+    "test": "node tests/run.js",
     "treats": "node packages/core/bin/treats.js",
     "install-all": "node packages/core/bin/treats.js install",
     "install-hooks": "node packages/core/bin/treats.js install-hooks",

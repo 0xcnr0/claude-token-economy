@@ -4,7 +4,7 @@ Small, safe, valuable improvements for the autopilot (or anyone) to pick up.
 Do one at a time; check it off (`- [x]`) when committed. Keep changes focused.
 
 ## Tests & safety
-- [ ] Add a tiny zero-dependency test runner (`tests/run.js`) and unit tests for
+- [x] Add a tiny zero-dependency test runner (`tests/run.js`) and unit tests for
       `grades.js` (gradeFor thresholds, gpa, currentStreak, dominantTheme, topThemes).
 - [ ] Unit tests for `ledger.js` projectKeyFor (git-root + realpath), balanceFor,
       undoLast(project), resetProject.
