@@ -118,10 +118,12 @@ Everything lives in `~/.treats/` on your own machine — no accounts, no servers
 ## The pet, in detail
 
 `npm run pet` opens a small, draggable, always-on-top window with your animal.
-It bobs idly, hops and throws hearts when you pet it, and shrinks/shakes with a
-red flash when scolded. The menu-bar icon shows the score, lets you switch animal,
-and toggles an optional "type a message into the terminal" feature (off by
-default; needs macOS Accessibility permission).
+It's alive: it **barks/meows/rawrs** (a synthesized per-animal voice) and pops a
+speech bubble when you treat it, **whimpers** when scolded, hops and throws hearts,
+**wiggles** on its own now and then, and curls up to **sleep 💤** after you've been
+idle — waking the moment you touch it. The menu-bar icon shows the score, lets you
+switch animal, and toggles an optional "type a message into the terminal" feature
+(off by default; needs macOS Accessibility permission).
 
 - **Click / stroke** → treat · **right-click** → scold · **drag** → move it
 - **⌘⇧G / Ctrl+Shift+G**, **⌘⇧B / Ctrl+Shift+B** work from anywhere

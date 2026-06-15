@@ -280,3 +280,15 @@ footer .fine { font-size: 0.8rem; opacity: 0.7; margin-top: 6px; }
 .copy-btn.done { color: var(--green); border-color: #51d88a55; }
 
 .install-h { font-size: 1.15rem; margin: 0 0 4px; }
+
+/* demo pet speech bubble */
+.demo-pet-box { position: relative; display: inline-block; }
+.demo-bubble {
+  position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%) scale(.8);
+  margin-bottom: 6px; background: #fff; color: #1a1a1a; font-size: 13px; font-weight: 700;
+  padding: 3px 10px; border-radius: 12px; white-space: nowrap; opacity: 0;
+  transition: opacity .15s, transform .15s; pointer-events: none; box-shadow: 0 3px 12px rgba(0,0,0,.4);
+}
+.demo-bubble::after { content:""; position:absolute; top:100%; left:50%; transform:translateX(-50%); border:5px solid transparent; border-top-color:#fff; border-bottom:0; }
+.demo-bubble.show { opacity: 1; transform: translateX(-50%) scale(1); }
+.demo-bubble.sad { background: #d7dcf0; }

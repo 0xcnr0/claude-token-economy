@@ -9,17 +9,17 @@ const THRESHOLDS = {
 
 // tiers order: [vale, honor, gold, good, needs, bad, bottom]
 const ANIMALS = {
-  dog: { label: "Dog", emoji: "🐶", treat: "🦴", badPhrase: "a bad dog",
+  dog: { label: "Dog", emoji: "🐶", treat: "🦴", voice: "Woof!", badPhrase: "a bad dog",
     tiers: [["Best Boy","🏆"],["Very Good Boy","🌟"],["Good Boy","⭐"],["Good Pup","🐶"],["Needs Training","⚠️"],["Bad Dog","🚫"],["Doghouse","⛔"]] },
-  cat: { label: "Cat", emoji: "🐱", treat: "🐟", badPhrase: "a bad cat",
+  cat: { label: "Cat", emoji: "🐱", treat: "🐟", voice: "Meow!", badPhrase: "a bad cat",
     tiers: [["Top Cat","🏆"],["Purrfect","🌟"],["Good Kitty","⭐"],["Fine Feline","🐱"],["Needs Training","⚠️"],["Bad Cat","🚫"],["Spray Bottle","⛔"]] },
-  dragon: { label: "Dragon", emoji: "🐉", treat: "💎", badPhrase: "a disgrace to the hoard",
+  dragon: { label: "Dragon", emoji: "🐉", treat: "💎", voice: "Rawr!", badPhrase: "a disgrace to the hoard",
     tiers: [["Elder Wyrm","🏆"],["Great Wyrm","🌟"],["Fine Dragon","⭐"],["Hatchling","🐉"],["Restless","⚠️"],["Disgraced","🚫"],["Banished","⛔"]] },
-  horse: { label: "Horse", emoji: "🐴", treat: "🥕", badPhrase: "a stubborn mule",
+  horse: { label: "Horse", emoji: "🐴", treat: "🥕", voice: "Neigh!", badPhrase: "a stubborn mule",
     tiers: [["Derby Winner","🏆"],["Champion","🌟"],["Good Horse","⭐"],["Good Foal","🐴"],["Needs Training","⚠️"],["Stubborn Mule","🚫"],["Out to Pasture","⛔"]] },
-  hamster: { label: "Hamster", emoji: "🐹", treat: "🌰", badPhrase: "a bad hammy",
+  hamster: { label: "Hamster", emoji: "🐹", treat: "🌰", voice: "Squeak!", badPhrase: "a bad hammy",
     tiers: [["Wheel Champion","🏆"],["Very Good Hammy","🌟"],["Good Hammy","⭐"],["Fluffball","🐹"],["Needs Training","⚠️"],["Bad Hammy","🚫"],["No Wheel","⛔"]] },
-  parrot: { label: "Parrot", emoji: "🦜", treat: "🥜", badPhrase: "a bad bird",
+  parrot: { label: "Parrot", emoji: "🦜", treat: "🥜", voice: "Squawk!", badPhrase: "a bad bird",
     tiers: [["Top Bird","🏆"],["Very Good Bird","🌟"],["Good Bird","⭐"],["Fledgling","🦜"],["Needs Training","⚠️"],["Bad Bird","🚫"],["Covered Cage","⛔"]] },
 };
 
@@ -233,12 +233,27 @@ document.querySelectorAll("[data-type]").forEach((b) =>
 $("undoBtn").addEventListener("click", undo);
 $("resetBtn").addEventListener("click", reset);
 
-// Clickable demo pet — click to pet (treat), right-click to scold.
+// Clickable demo pet — click to pet (treat), right-click to scold, with a
+// little speech bubble just like the real desktop pet.
 const demoPet = $("demoPet");
+const demoBubble = $("demoBubble");
+let demoBubbleTimer = null;
+function sayDemo(text, sad) {
+  if (!demoBubble) return;
+  demoBubble.textContent = text;
+  demoBubble.classList.toggle("sad", !!sad);
+  demoBubble.classList.add("show");
+  clearTimeout(demoBubbleTimer);
+  demoBubbleTimer = setTimeout(() => demoBubble.classList.remove("show"), 1300);
+}
 if (demoPet) {
-  demoPet.addEventListener("click", () => add("reward", "petted"));
+  demoPet.addEventListener("click", () => {
+    sayDemo(ANIMAL.voice, false);
+    add("reward", "petted");
+  });
   demoPet.addEventListener("contextmenu", (e) => {
     e.preventDefault();
+    sayDemo("…", true);
     add("punish", "scolded");
   });
 }
