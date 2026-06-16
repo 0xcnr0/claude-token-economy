@@ -30,7 +30,7 @@ Do one at a time; check it off (`- [x]`) when committed. Keep changes focused.
 ## Docs & site
 - [ ] A short animated GIF or SVG of petting, embedded on the site.
 - [x] An FAQ section on the website (privacy, uninstall, does it slow Claude down).
-- [ ] Improve the README's troubleshooting section.
+- [x] Improve the README's troubleshooting section.
 
 ## Polish
 - [x] Make `treats report --archive` iterate every project (it currently archives

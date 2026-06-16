@@ -234,6 +234,37 @@ report card, end to end.
 | `packages/overlay/main.js` | menu-bar app + click-through overlay |
 | `scripts/` | asset generators, hook/schedule installers, demo |
 
+## Troubleshooting
+
+Everything Treats touches lives in two places: your data and config in `~/.treats/`,
+and the Claude Code hooks in `~/.claude/settings.json`. Most issues are one of those
+two not being wired up. Quick checks:
+
+- **The pet window doesn't appear.** `npm run pet` needs Electron and runs best on
+  macOS. Make sure `npm install` finished without errors, then re-run `npm run pet`.
+  The window is small, always-on-top and starts bottom-right — if it's hiding behind
+  another window, drag it out. The score and animal also live in the menu-bar icon.
+- **The ⌘⇧G / ⌘⇧B (Ctrl+Shift+G/B) shortcuts do nothing.** Another app may already
+  own that global shortcut. Pet/right-click the animal directly to confirm scoring
+  works, then free up the shortcut in the other app.
+- **Claude doesn't seem to notice the feedback.** The hooks run on the *next* turn,
+  not retroactively. Confirm they're installed by looking for a `Treats` entry in
+  `~/.claude/settings.json` (or re-run `treats install-hooks`, which backs up first),
+  then start a fresh prompt. The mid-session nudge only re-injects when the score has
+  changed since Claude last saw it, so an unchanged score is silent by design.
+- **The score didn't change, or changed the wrong project.** Treats scores each git
+  repo separately. Run `treats status` in the project folder to see its standing, and
+  `treats projects` to list them all. The desktop pet credits whichever project sent
+  the last prompt — check the name shown under the score.
+- **No sound.** Sounds are synthesized per-animal and can be toggled in
+  `~/.treats/config.json` (`"sounds": false` to silence). Run `npm run gen-assets` if
+  the sound/icon files are missing.
+- **"Type a message into the terminal" does nothing (macOS).** That feature is off by
+  default and needs Accessibility permission — grant your terminal/Electron app access
+  under System Settings → Privacy & Security → Accessibility.
+- **`~/.treats` is read-only or full.** Treats fails gracefully and keeps the pet
+  running, but new treats won't be saved until the volume is writable again.
+
 ## Uninstall hooks
 
 Restore the timestamped backup that `install-hooks` printed:
