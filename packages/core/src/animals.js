@@ -215,6 +215,27 @@ export const ANIMALS = {
       { name: "No Iceberg", emoji: "⛔" },
     ],
   },
+
+  rabbit: {
+    key: "rabbit",
+    label: "Rabbit",
+    emoji: "🐰",
+    treat: "🥬",
+    voice: "Thump!",
+    give: "Greens given",
+    scold: "Bad bunny",
+    badPhrase: "a bad bunny",
+    speak: "Bad bunny.",
+    tiers: [
+      { name: "Top Bunny", emoji: "🏆" },
+      { name: "Great Bunny", emoji: "🌟" },
+      { name: "Good Bunny", emoji: "⭐" },
+      { name: "Cottontail", emoji: "🐰" },
+      { name: "Needs Training", emoji: "⚠️" },
+      { name: "Bad Bunny", emoji: "🚫" },
+      { name: "No Burrow", emoji: "⛔" },
+    ],
+  },
 };
 
 export const DEFAULT_ANIMAL = "dog";
