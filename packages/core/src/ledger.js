@@ -193,6 +193,40 @@ export function listProjects(ledger = loadLedger()) {
   return [...map.values()].sort((a, b) => (a.lastTs < b.lastTs ? 1 : -1));
 }
 
+// Roll every project's feedback up into one summary for `treats stats`:
+// how many treats vs scoldings overall, the net balance, the project count,
+// and which project is doing best (highest balance) / is busiest (most
+// entries). Ties are broken toward the more recently active project, since
+// listProjects() is already newest-first.
+export function globalStats(ledger = loadLedger()) {
+  const projects = listProjects(ledger);
+  let rewards = 0;
+  let scoldings = 0;
+  let net = 0;
+  for (const e of ledger.entries) {
+    if (e.type === "reward") rewards += 1;
+    else if (e.type === "punish") scoldings += 1;
+    net += e.delta || 0;
+  }
+  const topRanked = projects.reduce(
+    (best, p) => (best && best.balance >= p.balance ? best : p),
+    null,
+  );
+  const busiest = projects.reduce(
+    (best, p) => (best && best.count >= p.count ? best : p),
+    null,
+  );
+  return {
+    rewards,
+    scoldings,
+    net,
+    total: ledger.entries.length,
+    projectCount: projects.length,
+    topRanked,
+    busiest,
+  };
+}
+
 // Remove and return the most recent entry (optionally within one project).
 // Returns { entry, balance } or null if there was nothing to undo.
 export function undoLast(project = null) {

@@ -18,6 +18,7 @@ import {
   balanceFor,
   entriesFor,
   listProjects,
+  globalStats,
 } from "../packages/core/src/ledger.js";
 
 // A synthetic ledger: explicit `project` fields mean entryProject() never has
@@ -71,6 +72,30 @@ test("listProjects: aggregates balance/count, newest activity first", () => {
     { project: "B", balance: -1, count: 1, lastTs: "2026-01-03T00:00:00Z" },
     { project: "A", balance: 2, count: 2, lastTs: "2026-01-02T00:00:00Z" },
   ]);
+});
+
+// --- globalStats -----------------------------------------------------------
+
+test("globalStats: totals treats/scoldings, net, top + busiest project", () => {
+  const s = globalStats(ledger);
+  eq(s.rewards, 2);
+  eq(s.scoldings, 1);
+  eq(s.net, 1);
+  eq(s.total, 3);
+  eq(s.projectCount, 2);
+  eq(s.topRanked.project, "A"); // balance 2 beats B's -1
+  eq(s.busiest.project, "A"); // 2 entries beats B's 1
+});
+
+test("globalStats: empty ledger has zeroed totals and no winners", () => {
+  const s = globalStats({ entries: [] });
+  eq(s.rewards, 0);
+  eq(s.scoldings, 0);
+  eq(s.net, 0);
+  eq(s.total, 0);
+  eq(s.projectCount, 0);
+  eq(s.topRanked, null);
+  eq(s.busiest, null);
 });
 
 // --- projectName -----------------------------------------------------------

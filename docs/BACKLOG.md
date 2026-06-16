@@ -15,7 +15,7 @@ Do one at a time; check it off (`- [x]`) when committed. Keep changes focused.
 ## CLI
 - [x] `treats config` — view and set config flags (animal, sounds, autoTreats,
       autoScold, guardDog) without hand-editing JSON.
-- [ ] `treats stats` — totals across all projects (treats given, scoldings, top
+- [x] `treats stats` — totals across all projects (treats given, scoldings, top
       rank, busiest project).
 - [ ] `treats projects --json` for scripting.
 - [ ] `treats undo --project <name>` to undo in a non-current project.

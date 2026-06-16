@@ -2,7 +2,7 @@
 import fs from "node:fs";
 import {
   append, undoLast, resetLedger, resetProject, loadState, loadConfig, saveConfig, ensureConfig,
-  entriesFor, balanceFor, projectKeyFor, projectName, listProjects,
+  entriesFor, balanceFor, projectKeyFor, projectName, listProjects, globalStats,
   CONFIG_FLAGS, coerceConfigValue,
 } from "../src/ledger.js";
 import { gradeFor, currentStreak, gpa } from "../src/grades.js";
@@ -24,6 +24,7 @@ Usage:
   treats reset --yes         Wipe the whole record (backs it up first)
   treats status [--json]     This project's treats, rank and last feedback
   treats projects            List every project and its score
+  treats stats [--json]      Totals across all projects (treats, scoldings, ...)
   treats report [--out FILE] Print (or write) this project's report card
   treats report --archive    Write a date-stamped card to the archive
   treats animal [name]       Show or change your animal (dog, cat, dragon, ...)
@@ -202,6 +203,47 @@ function cmdProjects() {
   }
 }
 
+function cmdStats(args) {
+  const s = globalStats();
+
+  if (args.includes("--json")) {
+    console.log(
+      JSON.stringify({
+        treats: s.rewards,
+        scoldings: s.scoldings,
+        net: s.net,
+        total: s.total,
+        projects: s.projectCount,
+        topRanked: s.topRanked
+          ? { project: projectName(s.topRanked.project), balance: s.topRanked.balance }
+          : null,
+        busiest: s.busiest
+          ? { project: projectName(s.busiest.project), count: s.busiest.count }
+          : null,
+      }),
+    );
+    return;
+  }
+
+  if (!s.total) {
+    console.log("No feedback recorded in any project yet.");
+    return;
+  }
+
+  console.log(`All projects (${s.projectCount}):`);
+  console.log(`  🦴 Treats given:  ${s.rewards}`);
+  console.log(`  🚫 Scoldings:     ${s.scoldings}`);
+  console.log(`  📊 Net balance:   ${s.net > 0 ? "+" : ""}${s.net}  ${rankLine(s.net)}`);
+  if (s.topRanked) {
+    const g = gradeFor(s.topRanked.balance);
+    const sign = s.topRanked.balance > 0 ? "+" : "";
+    console.log(`  🏆 Top project:   ${projectName(s.topRanked.project)} (${sign}${s.topRanked.balance}, ${g.emoji} ${g.name})`);
+  }
+  if (s.busiest) {
+    console.log(`  🔥 Busiest:       ${projectName(s.busiest.project)} (${s.busiest.count} entries)`);
+  }
+}
+
 function cmdReport(args) {
   if (args.includes("--archive")) {
     const file = archiveReport();
@@ -331,6 +373,9 @@ async function main() {
       break;
     case "projects":
       cmdProjects();
+      break;
+    case "stats":
+      cmdStats(args);
       break;
     case "report":
       cmdReport(args);
