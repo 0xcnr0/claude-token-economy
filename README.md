@@ -78,19 +78,13 @@ when you feel like it — no terminal, no clone, no npm:
 (`treats install` from source does the same wiring locally, plus the global
 `treats` CLI and the `/treats:*` commands in `~/.claude/commands/`.)
 
-## Pick your animal 🐶🐱🐉🐴🐹🦜
+## Pick your animal 🐶🐱🐉🐴🐹🦜🦊🐼🐸🐧🐰🐝
 
-Your AI doesn't have to be a dog. `/treats:animal cat` and the whole thing
-re-themes — emojis, ranks and phrasing follow. A cat climbs from *Fine Feline*
-to *Top Cat* (or lands at the *Spray Bottle*); a dragon grows its hoard from
-*Hatchling* to *Elder Wyrm*. Try them live on the [website](https://treats-ai.vercel.app).
-
-## Pick your animal 🐶🐱🐉🐴🐹🦜
-
-Your AI doesn't have to be a dog. `treats animal cat` and the whole thing
-re-themes — emojis, ranks and phrasing follow. A cat climbs from *Fine Feline*
-to *Top Cat* (or lands at the *Spray Bottle*); a dragon grows its hoard from
-*Hatchling* to *Elder Wyrm*. Try them live on the [website](https://treats-ai.vercel.app).
+Your AI doesn't have to be a dog. `treats animal cat` (or `/treats:animal cat`)
+and the whole thing re-themes — emojis, ranks and phrasing follow. A cat climbs
+from *Fine Feline* to *Top Cat* (or lands at the *Spray Bottle*); a dragon grows
+its hoard from *Hatchling* to *Elder Wyrm*. Twelve animals in all. Try them live
+on the [website](https://treats-ai.vercel.app).
 
 Want a different animal for one repo? `treats animal cat --here` sets it for the
 current project only, leaving the global default alone. `treats animal default
