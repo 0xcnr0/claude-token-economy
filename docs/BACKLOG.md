@@ -29,7 +29,7 @@ Do one at a time; check it off (`- [x]`) when committed. Keep changes focused.
 
 ## Docs & site
 - [ ] A short animated GIF or SVG of petting, embedded on the site.
-- [ ] An FAQ section on the website (privacy, uninstall, does it slow Claude down).
+- [x] An FAQ section on the website (privacy, uninstall, does it slow Claude down).
 - [ ] Improve the README's troubleshooting section.
 
 ## Polish

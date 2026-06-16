@@ -26,6 +26,7 @@
         <a href="#how">How it works</a>
         <a href="#demo">Try it</a>
         <a href="#install">Install</a>
+        <a href="#faq">FAQ</a>
         <a class="gh" href="https://github.com/0xcnr0/treats" target="_blank" rel="noopener">GitHub ↗</a>
       </nav>
     </header>
@@ -206,6 +207,17 @@ npm run pet</code></pre>
         <pre class="code"><code>/plugin marketplace add 0xcnr0/treats
 /plugin install treats</code></pre>
         <p class="tip">Then just say <code>/treats:good</code> or <code>/treats:bad</code> whenever you like. Everything sets itself up.</p>
+      </section>
+
+      <!-- FAQ -->
+      <section id="faq" class="faq">
+        <h2>Common questions</h2>
+        <div class="qa">
+          <div class="qa-item"><b>Is anything sent to the cloud?</b><span>No. Your score lives in a single plain file on your own computer (<code>~/.treats</code>). There are no accounts, no sign-up, and nothing is uploaded anywhere. The only thing Claude ever sees is the short note about how it's been doing — and that's already part of your own Claude session.</span></div>
+          <div class="qa-item"><b>Does it slow Claude down?</b><span>No noticeable difference. The note Claude reads is just a few lines of text, and the score is read from a tiny local file. There's no network call and no heavy work added to your requests.</span></div>
+          <div class="qa-item"><b>How do I uninstall it?</b><span>The pet is just an app you can quit and delete. To remove the Claude hooks, restore the timestamped backup that <code>install-hooks</code> printed: <code>cp ~/.claude/settings.json.backup.&lt;timestamp&gt; ~/.claude/settings.json</code>. Your <code>~/.treats</code> file can be deleted any time.</span></div>
+          <div class="qa-item"><b>Does it cost anything?</b><span>No. Treats is free and open source (MIT). There's no money in it — a "treat" is just a point you keep for yourself. It's not affiliated with Anthropic.</span></div>
+        </div>
       </section>
     </main>
 
