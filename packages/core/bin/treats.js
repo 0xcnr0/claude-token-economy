@@ -23,7 +23,7 @@ Usage:
   treats undo                Take back the last treat/scolding
   treats reset --yes         Wipe the whole record (backs it up first)
   treats status [--json]     This project's treats, rank and last feedback
-  treats projects            List every project and its score
+  treats projects [--json]   List every project and its score
   treats stats [--json]      Totals across all projects (treats, scoldings, ...)
   treats report [--out FILE] Print (or write) this project's report card
   treats report --archive    Write a date-stamped card to the archive
@@ -190,8 +190,24 @@ function cmdStatus(args) {
   }
 }
 
-function cmdProjects() {
+function cmdProjects(args = []) {
   const all = listProjects();
+
+  if (args.includes("--json")) {
+    console.log(
+      JSON.stringify(
+        all.map((p) => ({
+          project: projectName(p.project),
+          balance: p.balance,
+          rank: gradeFor(p.balance).name,
+          count: p.count,
+          lastTs: p.lastTs,
+        })),
+      ),
+    );
+    return;
+  }
+
   if (!all.length) {
     console.log("No feedback recorded in any project yet.");
     return;
@@ -372,7 +388,7 @@ async function main() {
       cmdStatus(args);
       break;
     case "projects":
-      cmdProjects();
+      cmdProjects(args);
       break;
     case "stats":
       cmdStats(args);

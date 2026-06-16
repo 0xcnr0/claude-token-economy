@@ -17,7 +17,7 @@ Do one at a time; check it off (`- [x]`) when committed. Keep changes focused.
       autoScold, guardDog) without hand-editing JSON.
 - [x] `treats stats` — totals across all projects (treats given, scoldings, top
       rank, busiest project).
-- [ ] `treats projects --json` for scripting.
+- [x] `treats projects --json` for scripting.
 - [ ] `treats undo --project <name>` to undo in a non-current project.
 
 ## Pet & UX
