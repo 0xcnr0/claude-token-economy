@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
-import { loadConfig, DATA_DIR, entriesFor, projectKeyFor, projectName } from "./ledger.js";
+import crypto from "node:crypto";
+import { loadConfig, DATA_DIR, entriesFor, projectKeyFor, projectName, listProjects } from "./ledger.js";
 import { gradeFor, currentStreak, gpa, dominantTheme } from "./grades.js";
 import { getAnimal } from "./animals.js";
 
@@ -56,9 +57,10 @@ function teacherComments(entries) {
   return lines;
 }
 
-// Build the full markdown report card for one project (defaults to the cwd's).
-export function buildReport({ cwd } = {}) {
-  const project = projectKeyFor(cwd);
+// Build the full markdown report card for one project. Pass an explicit
+// `project` key, or a `cwd` to resolve one (defaults to the current dir).
+export function buildReport({ cwd, project: projectKey } = {}) {
+  const project = projectKey || projectKeyFor(cwd);
   const entries = entriesFor(project);
   const balance = entries.reduce((s, e) => s + (e.delta || 0), 0);
   const grade = gradeFor(balance);
@@ -119,12 +121,33 @@ export function buildReport({ cwd } = {}) {
   return lines.join("\n");
 }
 
-// Write the report into the archive dir with a date-stamped filename. Used by
-// the weekly launchd job. Returns the file path.
+// A filesystem-safe, collision-resistant slug for a project key: its folder
+// name plus a short hash of the full path (so two repos sharing a basename
+// don't overwrite each other's archived card).
+function projectSlug(projectKey) {
+  const name =
+    projectName(projectKey)
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "") || "project";
+  const hash = crypto.createHash("sha1").update(String(projectKey)).digest("hex").slice(0, 6);
+  return `${name}-${hash}`;
+}
+
+// Write a date-stamped report card for EVERY project into the archive dir. Used
+// by the weekly launchd job. Falls back to the cwd's project when the ledger is
+// empty, so the command always produces at least one card. Returns the list of
+// file paths written.
 export function archiveReport(date = new Date()) {
   fs.mkdirSync(REPORTS_DIR, { recursive: true });
   const stamp = date.toISOString().slice(0, 10); // YYYY-MM-DD
-  const file = path.join(REPORTS_DIR, `report-${stamp}.md`);
-  fs.writeFileSync(file, buildReport());
-  return file;
+  const projects = listProjects();
+  const keys = projects.length ? projects.map((p) => p.project) : [projectKeyFor()];
+  const files = [];
+  for (const project of keys) {
+    const file = path.join(REPORTS_DIR, `report-${stamp}-${projectSlug(project)}.md`);
+    fs.writeFileSync(file, buildReport({ project }));
+    files.push(file);
+  }
+  return files;
 }

@@ -26,7 +26,7 @@ Usage:
   treats projects [--json]   List every project and its score
   treats stats [--json]      Totals across all projects (treats, scoldings, ...)
   treats report [--out FILE] Print (or write) this project's report card
-  treats report --archive    Write a date-stamped card to the archive
+  treats report --archive    Archive a date-stamped card for every project
   treats animal [name]       Show or change your animal (dog, cat, dragon, ...)
   treats config [key [val]]  View or change settings (sounds, autoTreats, ...)
   treats statusline          Internal: render the status line (your animal, live)
@@ -305,8 +305,13 @@ function cmdStats(args) {
 
 function cmdReport(args) {
   if (args.includes("--archive")) {
-    const file = archiveReport();
-    console.log(`Report archived to ${file}`);
+    const files = archiveReport();
+    if (files.length === 1) {
+      console.log(`Report archived to ${files[0]}`);
+    } else {
+      console.log(`Archived ${files.length} report cards:`);
+      for (const f of files) console.log(`  ${f}`);
+    }
     return;
   }
   const md = buildReport({ cwd: process.cwd() });
