@@ -21,6 +21,14 @@ const ANIMALS = {
     tiers: [["Wheel Champion","🏆"],["Very Good Hammy","🌟"],["Good Hammy","⭐"],["Fluffball","🐹"],["Needs Training","⚠️"],["Bad Hammy","🚫"],["No Wheel","⛔"]] },
   parrot: { label: "Parrot", emoji: "🦜", treat: "🥜", voice: "Squawk!", badPhrase: "a bad bird",
     tiers: [["Top Bird","🏆"],["Very Good Bird","🌟"],["Good Bird","⭐"],["Fledgling","🦜"],["Needs Training","⚠️"],["Bad Bird","🚫"],["Covered Cage","⛔"]] },
+  fox: { label: "Fox", emoji: "🦊", treat: "🫐", voice: "Yip!", badPhrase: "a sneaky fox",
+    tiers: [["Sly Master","🏆"],["Cunning Fox","🌟"],["Clever Fox","⭐"],["Kit","🦊"],["Needs Training","⚠️"],["Sneaky Fox","🚫"],["Caught Red-Pawed","⛔"]] },
+  panda: { label: "Panda", emoji: "🐼", treat: "🎋", voice: "Bleat!", badPhrase: "a bad panda",
+    tiers: [["Bamboo Master","🏆"],["Great Panda","🌟"],["Good Panda","⭐"],["Cub","🐼"],["Needs Training","⚠️"],["Bad Panda","🚫"],["No Bamboo","⛔"]] },
+  frog: { label: "Frog", emoji: "🐸", treat: "🪰", voice: "Ribbit!", badPhrase: "a bad frog",
+    tiers: [["Prince Frog","🏆"],["Great Hopper","🌟"],["Good Frog","⭐"],["Tadpole","🐸"],["Needs Training","⚠️"],["Bad Frog","🚫"],["Dry Pond","⛔"]] },
+  penguin: { label: "Penguin", emoji: "🐧", treat: "🦐", voice: "Honk!", badPhrase: "a bad penguin",
+    tiers: [["Emperor","🏆"],["Great Penguin","🌟"],["Good Penguin","⭐"],["Chick","🐧"],["Needs Training","⚠️"],["Bad Penguin","🚫"],["No Iceberg","⛔"]] },
 };
 
 let ANIMAL = ANIMALS[localStorage.getItem("treats-animal") || "dog"] || ANIMALS.dog;

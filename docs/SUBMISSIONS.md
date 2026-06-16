@@ -17,7 +17,7 @@ to submit via their web form/PR — do not automate them.**
   > your screen corner — pet it with your mouse when the AI does good work,
   > right-click to scold a slip — and your reaction is quietly handed back to the
   > AI, so it actually does better next time (scold "no tests" → next time it
-  > writes them). Pick your animal (dog/cat/dragon/horse/hamster/parrot), each
+  > writes them). Pick your animal (dog/cat/dragon/horse/hamster/parrot/fox/panda/frog/penguin), each
   > with its own moods, ranks and report cards. Every project keeps its own score.
   > Don't want the pet? Optional `/treats:good` · `/treats:bad` work too.
 - **Security notes (they ask):** Fully local — no network calls, no telemetry, no

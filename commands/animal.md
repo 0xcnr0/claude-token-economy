@@ -1,5 +1,5 @@
 ---
-description: Show or change your animal (dog, cat, dragon, horse, hamster, parrot)
+description: Show or change your animal (dog, cat, dragon, horse, hamster, parrot, fox, panda, frog, penguin)
 argument-hint: "[name]"
 allowed-tools: Bash(node:*)
 ---

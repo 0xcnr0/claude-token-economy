@@ -21,7 +21,7 @@ Do one at a time; check it off (`- [x]`) when committed. Keep changes focused.
 - [x] `treats undo --project <name>` to undo in a non-current project.
 
 ## Pet & UX
-- [ ] More animals (fox 🦊, panda 🐼, frog 🐸, penguin 🐧) with ranks + voices.
+- [x] More animals (fox 🦊, panda 🐼, frog 🐸, penguin 🐧) with ranks + voices.
 - [ ] A small "double-click to open the report card" on the pet.
 - [ ] Remember the chosen animal per project (optional), not just globally.
 - [ ] Pet "thinking" pose while Claude is actively working (if detectable).
